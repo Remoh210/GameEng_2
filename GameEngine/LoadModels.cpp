@@ -6,7 +6,7 @@
 
 
 #include <iostream>
-
+std::vector< cMeshObject* > vec_Sound_Obj;
 // Loading models was moved into this function
 void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID )
 {
@@ -52,7 +52,7 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	pTheVAOMeshManager->LoadModelIntoVAO(WolfInfo, shaderProgramID);
 
 	sModelDrawInfo GramophoneInfo;
-	GramophoneInfo.meshFileName = "assets/models/gramophone.ply";	
+	GramophoneInfo.meshFileName = "assets/models/gram.ply";	
 	GramophoneInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(GramophoneInfo, shaderProgramID);
 	
@@ -76,6 +76,7 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pFire->meshName = "assets/models/fire.ply";
 		pFire->bIsVisible = true;
 		vec_pObjectsToDraw.push_back(pFire);
+		vec_Sound_Obj.push_back(pFire);
 	}
 
 
@@ -87,6 +88,7 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pSpeaker->meshName = "assets/models/speaker.ply";
 		pSpeaker->bIsVisible = true;
 		vec_pObjectsToDraw.push_back(pSpeaker);
+		vec_Sound_Obj.push_back(pSpeaker);
 	}
 
 
@@ -98,17 +100,24 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pWolf->meshName = "assets/models/wolf.ply";
 		pWolf->bIsVisible = true;
 		vec_pObjectsToDraw.push_back(pWolf);
+		vec_Sound_Obj.push_back(pWolf);
 	}
 
+	for (int i = 0; i < 9; i++)
 	{
-		cMeshObject* pGram = new cMeshObject();
-		pGram->position = glm::vec3(0.0f, 0.0f, 0.0f);
-		pGram->setUniformScale(100.0f);
-		pGram->friendlyName = "gramophone";
-		pGram->meshName = "assets/models/gamophone.ply";
-		pGram->bIsVisible = true;
-		vec_pObjectsToDraw.push_back(pGram);
+
+		cMeshObject* pSpeaker = new cMeshObject();
+		pSpeaker->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		pSpeaker->setUniformScale(0.2f);
+		pSpeaker->friendlyName = "speaker" + std::to_string(i);
+		pSpeaker->meshName = "assets/models/speaker.ply";
+		pSpeaker->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pSpeaker);
+		vec_Sound_Obj.push_back(pSpeaker);
 	}
+
+
+
 
 
 
@@ -133,6 +142,19 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 	{
 		cMeshObject* pRoom = new cMeshObject();
 		pRoom->position = glm::vec3(0.0f, 0.0f, 300.0f);
+		//pSpider->postRotation = glm::vec3(0.0f, glm::radians(-20.0f), 0.0f);
+	//	pRoom->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
+		pRoom->friendlyName = "room";
+		pRoom->meshName = "room.ply";
+		pRoom->setUniformScale(50.0f);
+		pRoom->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pRoom);
+	}
+
+
+	{
+		cMeshObject* pRoom = new cMeshObject();
+		pRoom->position = glm::vec3(1000.0f, 0.0f, 300.0f);
 		//pSpider->postRotation = glm::vec3(0.0f, glm::radians(-20.0f), 0.0f);
 	//	pRoom->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
 		pRoom->friendlyName = "room";

@@ -603,7 +603,7 @@ void SetUpSound()
 	assert(!_result);
 	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
-	_result = _system->playSound(_sound[0], _channel_groups[0], false, &_channel[0]);
+	_result = _system->playSound(_sound[0], _channel_groups[0], true, &_channel[0]);
 	assert(!_result);
 	_channel_position1 = { 0.0f,0.0f,0.0f };
 	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
@@ -613,7 +613,7 @@ void SetUpSound()
 	assert(!_result);
 	_result = _sound[1]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
-	_result = _system->playSound(_sound[1], _channel_groups[0], false, &_channel[1]);
+	_result = _system->playSound(_sound[1], _channel_groups[0], true, &_channel[1]);
 	assert(!_result);
 	_channel_position2 = { 0.0f,0.0f,0.0f };
 	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);
@@ -623,7 +623,7 @@ void SetUpSound()
 	assert(!_result);
 	_result = _sound[2]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
-	_result = _system->playSound(_sound[2], _channel_groups[0], false, &_channel[2]);
+	_result = _system->playSound(_sound[2], _channel_groups[0], true, &_channel[2]);
 	assert(!_result);
 	_channel_position3 = { 0.0f,0.0f,0.0f };
 	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);

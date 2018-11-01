@@ -45,6 +45,7 @@ extern float g_lightBrightness;	// = 1.0f;
 
 extern cVAOMeshManager* g_pTheVAOMeshManager;
 extern std::vector< cMeshObject* > vec_pObjectsToDraw;
+extern std::vector< cMeshObject* > vec_Sound_Obj;
 
 // 
 // This is a global pointer to a mesh object. 

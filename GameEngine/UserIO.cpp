@@ -77,7 +77,7 @@ void key_callback(GLFWwindow* window,
 			index = index + 1;
 		}
 		else { index = 0; }
-		std::cout << "Model " << vec_pObjectsToDraw.at(index)->meshName << " is Chosen" << std::endl;
+		std::cout << "Model " << vec_pObjectsToDraw.at(index)->friendlyName << " is Chosen" << std::endl;
 	}
 
 
@@ -154,15 +154,23 @@ void key_callback(GLFWwindow* window,
 
 
 
-	if (glm::distance(g_CameraEye, bonfire->position) < 30.0f)
+
+
+
+
+	if(glm::distance(g_CameraEye, vec_Sound_Obj.at(0)->position) < 50)
 	{
-		soundControl(1, window);
+		_result = _channel[0]->setPaused(false);
+	}
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(1)->position) < 50)
+	{
+		_result = _channel[1]->setPaused(false);
+	}
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(2)->position) < 50)
+	{
+		_result = _channel[2]->setPaused(false);
 	}
 
-	if (glm::distance(g_CameraEye, speaker->position) < 100.0f)
-	{
-		soundControl(0, window);
-	}
 
 
 	return;
@@ -504,3 +512,4 @@ void soundControl(int numb, GLFWwindow* window)
 
 	}
 }
+

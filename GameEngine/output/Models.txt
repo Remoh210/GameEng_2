@@ -35,6 +35,13 @@ QuatXYZW_rotation 0 0 0 1
 Scale  1.5 1.5 1.5
 Friendly_Name room
 Mesh_Name room.ply
+Position 1980 0 300
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 0 0 1
+Scale  50 50 50
+Friendly_Name room
+Mesh_Name room.ply
 Position 0 0 300
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
