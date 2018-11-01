@@ -13,7 +13,7 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
-
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>		// printf();
 #include <iostream>		// cout (console out)
@@ -22,6 +22,7 @@
 
 #include "cShaderManager.h"
 #include "fmod.hpp"
+#include <fmod_errors.h>
 #include "cMeshObject.h"
 #include "cVAOMeshManager.h"
 #include "cLightHelper.h"
@@ -30,49 +31,28 @@
 //FMOD Globals /***********************************************
 
 #define NUM_OF_SOUNDS 10
-#define NUM_OF_CHANNEL_GROUPS 3
+#define NUM_OF_CHANNEL_GROUPS 4
 //FMOD
 FMOD_RESULT _result = FMOD_OK;
 FMOD::System *_system = NULL;
 FMOD::Sound *_sound[NUM_OF_SOUNDS];
 FMOD::Channel *_channel[NUM_OF_SOUNDS];
-FMOD_SOUND_TYPE _sound_type;
-FMOD_SOUND_FORMAT _sound_format;
-//FMOD::S
-void UpdateSoundPositions();
-void assignChannels();
-void showFileInfo(int chan_numb);
-void soundControl(int numb, GLFWwindow* window);
-bool isPaused = false;
-std::string songTypeToString(FMOD_SOUND_TYPE type);
-std::string songFORMAToString(FMOD_SOUND_FORMAT type);
-bool fileWasloaded = false;
-bool shutdown_fmod();
-void LoadFromFile();
-bool init_fmod();
-//unsigned int _channel_position = 0;
-unsigned int _sound_lenght = 0;
-float _channel_frequency = 0.0f;
-float _channel_volume = 1.0f;
-float _channel_pan = 0.0f;
-char _songname[128];
-float _channel_pitch = 1.0f;
-std::string inputFile;
-//FMOD_RESULT _result = FMOD_OK;
-//FMOD::System *_system = NULL;
-//FMOD::Sound *_sound[NUM_OF_SOUNDS];
-//FMOD::Channel *_channel[NUM_OF_SOUNDS];
-//FMOD::ChannelGroup *_channel_groups[NUM_OF_CHANNEL_GROUPS];
-//FMOD::DSP *_dsp_echo;
-//
-//
-//
-FMOD_VECTOR _channel_position1 = { 0.0f, 0.0f, 0.0f };
-//FMOD_VECTOR _channel_position2;
+FMOD::ChannelGroup *_channel_groups[NUM_OF_CHANNEL_GROUPS];
+FMOD::DSP *_dsp_echo;
+
+FMOD_VECTOR _channel_position1;
+FMOD_VECTOR _channel_position2;
 FMOD_VECTOR _channel_velocity = { 0.0f, 0.0f, 0.0f };
 FMOD_VECTOR _listener_position = { 0.0f, 0.0f, 0.0f };
-FMOD_VECTOR _forward = { 0.0f, 0.0f, 1.0f };
+FMOD_VECTOR _forward = { 0.0f, 0.0f, -1.0f };
 FMOD_VECTOR _up = { 0.0f, 1.0f, 0.0f };
+
+//Functions
+bool init_fmod();
+bool shutdown_fmod();
+void LoadFromFile();
+void SetUpSound();
+void UpdateSound();
 
 
 //FMOD Globals /***********************************************
@@ -105,7 +85,7 @@ glm::vec3 Front;
 glm::vec3 Horizontal;
 
 
-
+std::string inputFile = "assets/music/songlist.txt";
 
 cShaderManager* pTheShaderManager = NULL;	
 cVAOMeshManager* g_pTheVAOMeshManager = NULL;
@@ -125,7 +105,7 @@ int main(void)
 	
 	init_fmod();
 	LoadFromFile();
-	assignChannels();
+	SetUpSound();
 
 	glfwSetErrorCallback(error_callback);
 
@@ -144,9 +124,6 @@ int main(void)
 	}
 
 
-	init_fmod();
-	
-	LoadFromFile();
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glfwSetKeyCallback(window, key_callback);
@@ -377,9 +354,8 @@ int main(void)
 
 		// The physics update loop
 		DoPhysicsUpdate( deltaTime, vec_pObjectsToDraw );
-		UpdateSoundPositions();
 
-
+		UpdateSound();
 
 		for (std::vector<sLight*>::iterator it = LightManager->vecLights.begin(); it != LightManager->vecLights.end(); ++it)
 		{
@@ -560,9 +536,9 @@ bool shutdown_fmod() {
 }
 
 
+
 void LoadFromFile()
 {
-	inputFile = "assets/music/songlist_compressed.txt";
 	std::string files[NUM_OF_SOUNDS];
 	int count = 0;
 
@@ -574,110 +550,88 @@ void LoadFromFile()
 	}
 	while (!inputfile.eof())
 	{
+
 		inputfile >> files[count];
 		std::cout << files[count] << std::endl;
-		_system->createSound(files[count].c_str(), FMOD_3D, 0, &_sound[count]);
+		if (count < 3) {
+			_result = _system->createSound(files[count].c_str(), FMOD_3D, 0, &_sound[count]);
+			assert(!_result);
+		}
+		else 
+		{
+		_system->createStream(files[count].c_str(), FMOD_DEFAULT, 0, &_sound[count]);
 		assert(!_result);
+		}
 		count++;
 	}
 
 }
 
 
-
-
-void UpdateSoundPositions()
-{
-	//find 3 3d sounds object
-	cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
-
+void SetUpSound() 
+{	
+	//Master Group
+	_result = _system->getMasterChannelGroup(&_channel_groups[0]);
 	assert(!_result);
-	_channel_position1 = { bonfire->position.x, bonfire->position.y, bonfire->position.z };
+
+	//
+	_result = _system->createChannelGroup("Group 3D Sound", &_channel_groups[1]);
+	assert(!_result);
+	_result = _system->createChannelGroup("Music Group 1", &_channel_groups[2]);
+	assert(!_result);
+	_result = _system->createChannelGroup("Music Group 2", &_channel_groups[3]);
+	assert(!_result);
+	_result = _system->createChannelGroup("Music Group 2", &_channel_groups[4]);
+	assert(!_result);
+
+	//Set groups children of master group.
+	_result = _channel_groups[0]->addGroup(_channel_groups[1]);
+	assert(!_result);
+	_result = _channel_groups[0]->addGroup(_channel_groups[2]);
+	assert(!_result);
+	_result = _channel_groups[0]->addGroup(_channel_groups[3]); 
+	assert(!_result);
+	_result = _channel_groups[0]->addGroup(_channel_groups[4]);
+	assert(!_result);
+
+
+	//3d Sound 
+	_result = _sound[0]->set3DMinMaxDistance(100.0f, 10000.0f);
+	assert(!_result);
+	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
+	assert(!_result);
+	_result = _system->playSound(_sound[0], _channel_groups[0], false, &_channel[0]);
+	assert(!_result);
+	_channel_position1 = { 0.0f,0.0f,0.0f };
 	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
 	assert(!_result);
-	_result = _system->update();
+
+	//Streaming Sounds
+
+	_result = _system->playSound(_sound[3], _channel_groups[1], false, &_channel[4]);
 	assert(!_result);
 
+	//TODO7: Create dsp echo
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);
+	assert(!_result);
+
+	_result = _channel_groups[1]->addDSP(0, _dsp_echo);
+	assert(!_result);
+	_result = _dsp_echo->setBypass(false);
+	assert(!_result);
+}
+
+void UpdateSound() {
+	//listener Position
 	_listener_position = { g_CameraEye.x, g_CameraEye.y, g_CameraEye.z };
-	_forward = { 1.0f, 0.0f, 0.0f};
 	_result = _system->set3DListenerAttributes(0, &_listener_position, &_channel_velocity, &_forward, &_up);
 	assert(!_result);
 
+	//Sound 1 position
+	cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
+	_channel_position1 = { bonfire->position.x, bonfire->position.y, bonfire->position.z };
+	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
+
 	_result = _system->update();
 	assert(!_result);
 }
-
-
-void assignChannels() 
-{
-
-	//cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
-	_result = _sound[1]->set3DMinMaxDistance(0.5f, 30000.0f);
-	assert(!_result);
-	_result = _sound[1]->setMode(FMOD_LOOP_NORMAL);
-	assert(!_result);
-	_result = _system->playSound(_sound[1], 0, false, &_channel[0]);
-	//assert(!_result);
-	//_channel_position1 = { bonfire->position.x, bonfire->position.y, bonfire->position.z };
-	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
-	assert(!_result);
-
-
-	//TODO2: GET MASTER GROUP, Retrieves a handle to the internal master channel group. This is the default channel group that all channels play on.
-	//_result = _system->getMasterChannelGroup(&_channel_groups[0]);
-	//assert(!_result);
-
-
-
-
-	//_result = _sound[0]->set3DMinMaxDistance(0.5f, 10000.0f);
-	//assert(!_result);
-	//_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
-	//assert(!_result);
-	//_result = _system->playSound(_sound[0], 0, false, &_channel[0]);
-
-
-
-
-	////TODO3: Create group A and group B
-	//_result = _system->createChannelGroup("Group A", &_channel_groups[1]);
-	//assert(!_result);
-	//_result = _system->createChannelGroup("Group B", &_channel_groups[2]);
-	//assert(!_result);
-
-	////TODO4: Set group A and B children of master group.
-	//_result = _channel_groups[0]->addGroup(_channel_groups[1]);
-	//assert(!_result);
-	//_result = _channel_groups[0]->addGroup(_channel_groups[2]);
-	//assert(!_result);
-}
-//
-//bool shutdown_fmod() {
-//
-//	for (unsigned int i = 0; i < NUM_OF_SOUNDS; i++)
-//	{
-//		if (_sound[i]) {
-//			_result = _sound[i]->release();
-//			assert(!_result);
-//		}
-//	}
-//
-//	//release channel groups
-//	for (unsigned int i = 1; i < NUM_OF_CHANNEL_GROUPS; i++)
-//	{
-//		if (_channel_groups[i]) {
-//			_result = _channel_groups[i]->release();
-//			assert(!_result);
-//		}
-//
-//	}
-//
-//	if (_system) {
-//		_result = _system->close();
-//		assert(!_result);
-//		_result = _system->release();
-//		assert(!_result);
-//	}
-//
-//	return true;
-//}

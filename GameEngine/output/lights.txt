@@ -9,11 +9,11 @@ on_off 1
 Name Torch_Light0
 light_type 0
 In_Out_Angles 0 0
-Position_xyz 0 400 0
+Position_xyz 0 76 -45
 Direction 0 0 0
-Attenuation_xyz 0 0.0001 1.5e-05
+Attenuation_xyz 0 0.0001 0.000129626
 Diffuse_rgbw 0.928 0.436 0.108 1
-on_off 0
+on_off 1
 Name Torch_Light1
 light_type 0
 In_Out_Angles 0 0
