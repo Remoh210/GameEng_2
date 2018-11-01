@@ -77,12 +77,11 @@ const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 800;
 
 
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
 
-glm::vec3 Front;
-glm::vec3 Horizontal;
+
 
 
 std::string inputFile = "assets/music/songlist.txt";
@@ -507,7 +506,7 @@ bool init_fmod() {
 	//TODO: CHECK FOR FMOD ERRORS, IMPLEMENT YOUR OWN FUNCTION
 	assert(!_result);
 	//Initializes the system object, and the msound device. This has to be called at the start of the user's program
-	_result = _system->init(512, FMOD_INIT_NORMAL, NULL);
+	_result = _system->init(512, FMOD_INIT_3D_RIGHTHANDED, NULL);
 	assert(!_result);
 
 
@@ -608,22 +607,29 @@ void SetUpSound()
 
 	//Streaming Sounds
 
-	_result = _system->playSound(_sound[3], _channel_groups[1], false, &_channel[4]);
-	assert(!_result);
+	//_result = _system->playSound(_sound[3], _channel_groups[1], false, &_channel[4]);
+	//assert(!_result);
 
 	//TODO7: Create dsp echo
-	_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);
-	assert(!_result);
+	//_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);
+	//assert(!_result);
 
-	_result = _channel_groups[1]->addDSP(0, _dsp_echo);
-	assert(!_result);
-	_result = _dsp_echo->setBypass(false);
-	assert(!_result);
+	//_result = _channel_groups[1]->addDSP(0, _dsp_echo);
+	//assert(!_result);
+	//_result = _dsp_echo->setBypass(true);
+	//assert(!_result);
 }
 
 void UpdateSound() {
 	//listener Position
 	_listener_position = { g_CameraEye.x, g_CameraEye.y, g_CameraEye.z };
+	//glm::vec3 cameraF = glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f));
+	//cameraFront =
+
+	glm::vec3 horizon = glm::normalize(glm::cross(cameraFront, cameraUp));
+	glm::vec3 newup = glm::normalize(glm::cross(horizon, cameraFront));
+	_up = { newup.x, newup.y, newup.z };
+	_forward = { cameraFront.x, cameraFront.y, cameraFront.z };
 	_result = _system->set3DListenerAttributes(0, &_listener_position, &_channel_velocity, &_forward, &_up);
 	assert(!_result);
 

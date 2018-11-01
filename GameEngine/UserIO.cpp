@@ -20,7 +20,8 @@ bool firstMouse = true;
 bool bIsAnimation = false;
 bool bMoveForward = true;
 
-
+glm::vec3 Front;
+glm::vec3 Horizontal;
 
 void SwitchToWireFrame(std::vector<cMeshObject*> models);
 
