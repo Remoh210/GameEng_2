@@ -29,45 +29,51 @@
 
 //FMOD Globals /***********************************************
 
-#define NUM_OF_SOUNDS 4
+#define NUM_OF_SOUNDS 10
 #define NUM_OF_CHANNEL_GROUPS 3
-
-
+//FMOD
 FMOD_RESULT _result = FMOD_OK;
 FMOD::System *_system = NULL;
 FMOD::Sound *_sound[NUM_OF_SOUNDS];
 FMOD::Channel *_channel[NUM_OF_SOUNDS];
-FMOD::ChannelGroup *_channel_groups[NUM_OF_CHANNEL_GROUPS];
-FMOD::DSP *_dsp_echo;
-
-
-
-FMOD_VECTOR _channel_position1;
-FMOD_VECTOR _channel_position2;
-FMOD_VECTOR _channel_velocity = { 0.0f, 0.0f, 0.0f };
-FMOD_VECTOR _listener_position = { 0.0f, 0.0f, 0.0f };
-FMOD_VECTOR _forward = { 0.0f, 0.0f, 1.0f };
-FMOD_VECTOR _up = { 0.0f, 1.0f, 0.0f };
-
-
-
-//void showFileInfo(int chan_numb);
-//void soundControl(int numb, GLFWwindow* window);
-//bool isPaused = false;
-//std::string songTypeToString(FMOD_SOUND_TYPE type);
-//std::string songFORMAToString(FMOD_SOUND_FORMAT type);
-//bool fileWasloaded = false;
-bool shutdown_fmod();
-bool init_fmod();
-void LoadFromFile();
+FMOD_SOUND_TYPE _sound_type;
+FMOD_SOUND_FORMAT _sound_format;
+//FMOD::S
+void UpdateSoundPositions();
 void assignChannels();
-unsigned int _channel_position = 0;
+void showFileInfo(int chan_numb);
+void soundControl(int numb, GLFWwindow* window);
+bool isPaused = false;
+std::string songTypeToString(FMOD_SOUND_TYPE type);
+std::string songFORMAToString(FMOD_SOUND_FORMAT type);
+bool fileWasloaded = false;
+bool shutdown_fmod();
+void LoadFromFile();
+bool init_fmod();
+//unsigned int _channel_position = 0;
 unsigned int _sound_lenght = 0;
 float _channel_frequency = 0.0f;
 float _channel_volume = 1.0f;
 float _channel_pan = 0.0f;
 char _songname[128];
 float _channel_pitch = 1.0f;
+std::string inputFile;
+//FMOD_RESULT _result = FMOD_OK;
+//FMOD::System *_system = NULL;
+//FMOD::Sound *_sound[NUM_OF_SOUNDS];
+//FMOD::Channel *_channel[NUM_OF_SOUNDS];
+//FMOD::ChannelGroup *_channel_groups[NUM_OF_CHANNEL_GROUPS];
+//FMOD::DSP *_dsp_echo;
+//
+//
+//
+FMOD_VECTOR _channel_position1 = { 0.0f, 0.0f, 0.0f };
+//FMOD_VECTOR _channel_position2;
+FMOD_VECTOR _channel_velocity = { 0.0f, 0.0f, 0.0f };
+FMOD_VECTOR _listener_position = { 0.0f, 0.0f, 0.0f };
+FMOD_VECTOR _forward = { 0.0f, 0.0f, 1.0f };
+FMOD_VECTOR _up = { 0.0f, 1.0f, 0.0f };
+
 
 //FMOD Globals /***********************************************
 
@@ -98,11 +104,10 @@ glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
 glm::vec3 Front;
 glm::vec3 Horizontal;
 
-//glm::vec3 g_CameraAt = glm::vec3(g_CameraEye, g_CameraEye.z + cameraFront.z, cameraUp.y);
-//glm::vec3 g_CameraAt = glm::vec3( 0.0, 0.0, 0.0f );
 
 
-cShaderManager* pTheShaderManager = NULL;		// "Heap" variable
+
+cShaderManager* pTheShaderManager = NULL;	
 cVAOMeshManager* g_pTheVAOMeshManager = NULL;
 
 cLightManager* LightManager = NULL;
@@ -117,7 +122,10 @@ static void error_callback(int error, const char* description)
 int main(void)
 {
 	GLFWwindow* window;
+	
 	init_fmod();
+	LoadFromFile();
+	assignChannels();
 
 	glfwSetErrorCallback(error_callback);
 
@@ -136,9 +144,9 @@ int main(void)
 	}
 
 
-
-
-
+	init_fmod();
+	
+	LoadFromFile();
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glfwSetKeyCallback(window, key_callback);
@@ -152,9 +160,6 @@ int main(void)
 	glfwSwapInterval(1);
 
 
-	// Create the shader manager...
-	//cShaderManager TheShaderManager;		// 
-	//cShaderManager* pTheShaderManager;		// 
 	pTheShaderManager = new cShaderManager();
 	pTheShaderManager->setBasePath("assets/shaders/");
 
@@ -187,18 +192,11 @@ int main(void)
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
 
 
-	// Loading the uniform variables here (rather than the inner draw loop)
 	GLint objectColour_UniLoc = glGetUniformLocation(program, "objectColour");
-	//uniform vec3 lightPos;
-	//uniform float lightAtten;
+
 	GLint lightPos_UniLoc = glGetUniformLocation(program, "lightPos");
 	GLint lightBrightness_UniLoc = glGetUniformLocation(program, "lightBrightness");
 
-	//	// uniform mat4 MVP;	THIS ONE IS NO LONGER USED	
-	//uniform mat4 matModel;	// M
-	//uniform mat4 matView;		// V
-	//uniform mat4 matProj;		// P
-	//GLint mvp_location = glGetUniformLocation(program, "MVP");
 	GLint matModel_location = glGetUniformLocation(program, "matModel");
 	GLint matView_location = glGetUniformLocation(program, "matView");
 	GLint matProj_location = glGetUniformLocation(program, "matProj");
@@ -216,10 +214,6 @@ int main(void)
 	//***************************************************************
 
 	LightManager = new cLightManager();
-	//sLight* pTheOneLight = NULL;
-	//sLight* pTheSecondLight = NULL;
-	//sLight* pTheThirdLight = NULL;
-	//sLight* pTheForthLight = NULL;
 
 	{
 		sLight* pTheMainLight = new sLight();
@@ -290,9 +284,8 @@ int main(void)
 	
 	loadModels("Models.txt", vec_pObjectsToDraw);
 	loadLights("lights.txt", LightManager->vecLights);
-	//Reload from the file
-	//loadModels("Models.txt", vec_pObjectsToDraw);
-	//*****************************************************************
+
+
 	
 	// Draw the "scene" (run the program)
 	while (!glfwWindowShouldClose(window))
@@ -303,13 +296,6 @@ int main(void)
 
         float ratio;
         int width, height;
-
-		//Front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-		//Front.y = sin(glm::radians(pitch));
-		//Front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-		//cameraFront = glm::normalize(Front);
-		//Horizontal = glm::normalize(glm::cross(Front, cameraUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-		//Up = glm::normalize(glm::cross(Right, Front));
 
 
 		glm::mat4x4 matProjection = glm::mat4(1.0f);
@@ -391,7 +377,7 @@ int main(void)
 
 		// The physics update loop
 		DoPhysicsUpdate( deltaTime, vec_pObjectsToDraw );
-
+		UpdateSoundPositions();
 
 
 
@@ -433,7 +419,6 @@ int main(void)
 				pDebugSphere->setDiffuseColour(glm::vec3(1.0f, 1.0f, 0.0f));
 				DrawObject(pDebugSphere, matBall, program);
 
-				//			pDebugSphere->objColour = glm::vec3(0.0f,1.0f,0.0f);	// 50% brightness
 				pDebugSphere->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
 				float distance50Percent =
 					pLightHelper->calcApproxDistFromAtten(0.50f, ACCURACY_OF_DISTANCE,
@@ -444,7 +429,6 @@ int main(void)
 				pDebugSphere->setUniformScale(distance50Percent);
 				DrawObject(pDebugSphere, matBall, program);
 
-				//			pDebugSphere->objColour = glm::vec3(1.0f,0.0f,0.0f);	// 25% brightness
 				pDebugSphere->setDiffuseColour(glm::vec3(1.0f, 0.0f, 0.0f));
 				float distance25Percent =
 					pLightHelper->calcApproxDistFromAtten(0.25f, ACCURACY_OF_DISTANCE,
@@ -461,12 +445,9 @@ int main(void)
 						CurLight->atten.x,
 						CurLight->atten.y,
 						CurLight->atten.z);
-				//			pDebugSphere->objColour = glm::vec3(0.0f,0.0f,1.0f);	// 1% brightness
 				pDebugSphere->setDiffuseColour(glm::vec3(0.0f, 0.0f, 1.0f));
 				pDebugSphere->setUniformScale(distance1Percent);
 				DrawObject(pDebugSphere, matBall, program);
-
-				//			pDebugSphere->objColour = oldColour;
 				pDebugSphere->materialDiffuse = oldDiffuse;
 				pDebugSphere->nonUniformScale = oldScale;
 				pDebugSphere->bIsVisible = false;
@@ -557,77 +538,6 @@ bool init_fmod() {
 	return true;
 }
 
-
-
-
-void LoadFromFile()
-{
-	std::string files[NUM_OF_SOUNDS];
-	int count = 0;
-
-	std::ifstream inputfile;
-	inputfile.open("Assets/audio/songlist.txt");
-	if (!inputfile.is_open())			// More "c" or "C++" ish
-	{
-		std::cout << "Didn't open file" << std::endl;
-	}
-	while (!inputfile.eof())
-	{
-		inputfile >> files[count];
-		std::cout << files[count] << std::endl;
-		_system->createStream(files[count].c_str(), FMOD_DEFAULT, 0, &_sound[count]);
-		assert(!_result);
-		count++;
-	}
-
-}
-
-
-void assignChannels() 
-{
-
-	//TODO1: CREATE SOUNDS.
-	_result = _system->createSound("common/assets/media/forest_background.ogg", FMOD_DEFAULT, 0, &_sound[0]);
-	assert(!_result);
-	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
-	assert(!_result);
-
-	_result = _system->createSound("common/assets/media/birds.ogg", FMOD_DEFAULT, 0, &_sound[1]);
-	assert(!_result);
-	_result = _sound[1]->setMode(FMOD_LOOP_NORMAL);
-	assert(!_result);
-
-	_result = _system->createSound("common/assets/media/thunder.ogg", FMOD_DEFAULT, 0, &_sound[2]);
-	assert(!_result);
-	_result = _sound[2]->setMode(FMOD_LOOP_NORMAL);
-	assert(!_result);
-
-	_result = _system->createSound("common/assets/media/wolf.ogg", FMOD_DEFAULT, 0, &_sound[3]);
-	assert(!_result);
-	_result = _sound[3]->setMode(FMOD_LOOP_NORMAL);
-	assert(!_result);
-
-	//TODO2: GET MASTER GROUP, Retrieves a handle to the internal master channel group. This is the default channel group that all channels play on.
-	_result = _system->getMasterChannelGroup(&_channel_groups[0]);
-	assert(!_result);
-
-
-
-
-
-	//TODO3: Create group A and group B
-	_result = _system->createChannelGroup("Group A", &_channel_groups[1]);
-	assert(!_result);
-	_result = _system->createChannelGroup("Group B", &_channel_groups[2]);
-	assert(!_result);
-
-	//TODO4: Set group A and B children of master group.
-	_result = _channel_groups[0]->addGroup(_channel_groups[1]);
-	assert(!_result);
-	_result = _channel_groups[0]->addGroup(_channel_groups[2]);
-	assert(!_result);
-}
-
 bool shutdown_fmod() {
 
 	for (unsigned int i = 0; i < NUM_OF_SOUNDS; i++)
@@ -638,15 +548,6 @@ bool shutdown_fmod() {
 		}
 	}
 
-	//release channel groups
-	for (unsigned int i = 1; i < NUM_OF_CHANNEL_GROUPS; i++)
-	{
-		if (_channel_groups[i]) {
-			_result = _channel_groups[i]->release();
-			assert(!_result);
-		}
-
-	}
 
 	if (_system) {
 		_result = _system->close();
@@ -657,3 +558,126 @@ bool shutdown_fmod() {
 
 	return true;
 }
+
+
+void LoadFromFile()
+{
+	inputFile = "assets/music/songlist_compressed.txt";
+	std::string files[NUM_OF_SOUNDS];
+	int count = 0;
+
+	std::ifstream inputfile;
+	inputfile.open(inputFile);
+	if (!inputfile.is_open())			// More "c" or "C++" ish
+	{
+		std::cout << "Didn't open file" << std::endl;
+	}
+	while (!inputfile.eof())
+	{
+		inputfile >> files[count];
+		std::cout << files[count] << std::endl;
+		_system->createSound(files[count].c_str(), FMOD_3D, 0, &_sound[count]);
+		assert(!_result);
+		count++;
+	}
+
+}
+
+
+
+
+void UpdateSoundPositions()
+{
+	//find 3 3d sounds object
+	cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
+
+	assert(!_result);
+	_channel_position1 = { bonfire->position.x, bonfire->position.y, bonfire->position.z };
+	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
+	assert(!_result);
+	_result = _system->update();
+	assert(!_result);
+
+	_listener_position = { g_CameraEye.x, g_CameraEye.y, g_CameraEye.z };
+	_forward = { 1.0f, 0.0f, 0.0f};
+	_result = _system->set3DListenerAttributes(0, &_listener_position, &_channel_velocity, &_forward, &_up);
+	assert(!_result);
+
+	_result = _system->update();
+	assert(!_result);
+}
+
+
+void assignChannels() 
+{
+
+	//cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
+	_result = _sound[1]->set3DMinMaxDistance(0.5f, 30000.0f);
+	assert(!_result);
+	_result = _sound[1]->setMode(FMOD_LOOP_NORMAL);
+	assert(!_result);
+	_result = _system->playSound(_sound[1], 0, false, &_channel[0]);
+	//assert(!_result);
+	//_channel_position1 = { bonfire->position.x, bonfire->position.y, bonfire->position.z };
+	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
+	assert(!_result);
+
+
+	//TODO2: GET MASTER GROUP, Retrieves a handle to the internal master channel group. This is the default channel group that all channels play on.
+	//_result = _system->getMasterChannelGroup(&_channel_groups[0]);
+	//assert(!_result);
+
+
+
+
+	//_result = _sound[0]->set3DMinMaxDistance(0.5f, 10000.0f);
+	//assert(!_result);
+	//_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
+	//assert(!_result);
+	//_result = _system->playSound(_sound[0], 0, false, &_channel[0]);
+
+
+
+
+	////TODO3: Create group A and group B
+	//_result = _system->createChannelGroup("Group A", &_channel_groups[1]);
+	//assert(!_result);
+	//_result = _system->createChannelGroup("Group B", &_channel_groups[2]);
+	//assert(!_result);
+
+	////TODO4: Set group A and B children of master group.
+	//_result = _channel_groups[0]->addGroup(_channel_groups[1]);
+	//assert(!_result);
+	//_result = _channel_groups[0]->addGroup(_channel_groups[2]);
+	//assert(!_result);
+}
+//
+//bool shutdown_fmod() {
+//
+//	for (unsigned int i = 0; i < NUM_OF_SOUNDS; i++)
+//	{
+//		if (_sound[i]) {
+//			_result = _sound[i]->release();
+//			assert(!_result);
+//		}
+//	}
+//
+//	//release channel groups
+//	for (unsigned int i = 1; i < NUM_OF_CHANNEL_GROUPS; i++)
+//	{
+//		if (_channel_groups[i]) {
+//			_result = _channel_groups[i]->release();
+//			assert(!_result);
+//		}
+//
+//	}
+//
+//	if (_system) {
+//		_result = _system->close();
+//		assert(!_result);
+//		_result = _system->release();
+//		assert(!_result);
+//	}
+//
+//	return true;
+//}

@@ -1,0 +1,10 @@
+assets/music/uncompressed/glowworm_periphescence.wav
+assets/music/uncompressed/Jordan_Davis_Singles_You_Up.wav
+assets/music/uncompressed/relax.wav
+assets/music/uncompressed/zelda.wav
+assets/music/uncompressed/taiko1.wav
+assets/music/uncompressed/taiko2.wav
+assets/music/uncompressed/taiko3.wav
+assets/music/uncompressed/taiko4.wav
+assets/music/uncompressed/trumpet1.wav
+assets/music/uncompressed/trumpet2.wav

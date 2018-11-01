@@ -60,11 +60,11 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	skullInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(skullInfo, shaderProgramID);
 
-	sModelDrawInfo spiderInfo;
-	spiderInfo.meshFileName = "spider.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
+	sModelDrawInfo FireInfo;
+	FireInfo.meshFileName = "assets/models/fire.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
 	// Will alow me to update the vertex data in the mesh
-	spiderInfo.bVertexBufferIsDynamic = true;
-	pTheVAOMeshManager->LoadModelIntoVAO(spiderInfo, shaderProgramID);
+	FireInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(FireInfo, shaderProgramID);
 
 	// At this point, mesh in in GPU
 	std::cout << "Mesh was loaded OK" << std::endl;
@@ -77,16 +77,7 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 {
 
-	{
-		cMeshObject* pTeapot = new cMeshObject();
-		pTeapot->position = glm::vec3( -90.0f, 60.0f, 0.0f );
-	//	pTeapot->objColour = glm::vec3( 0.2f, 0.8f, 0.3f );
-	//	pTeapot->postRotation = glm::vec3(glm::radians(-20.0f), 0.0f, 0.0f);
-		pTeapot->friendlyName = "teapot";
-		pTeapot->meshName = "Utah_Teapot_xyz_n.ply";		
-		pTeapot->setUniformScale( 0.4f );
-		vec_pObjectsToDraw.push_back( pTeapot );
-	}
+
 
 	{
 		cMeshObject* pSkull = new cMeshObject();
@@ -102,17 +93,6 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 	}
 
 
-	for (int countsp = 0; countsp < 3; countsp++) {
-
-		cMeshObject* pSpider = new cMeshObject();
-		pSpider->position = glm::vec3(80.0f, 50.0f, 0.0f);
-		//pSpider->postRotation = glm::vec3(0.0f, glm::radians(-20.0f), 0.0f);
-	//	pSpider->objColour = glm::vec3(0.24f, 0.56f, 1.0f);
-		pSpider->friendlyName = "spider" + std::to_string(countsp);
-		pSpider->meshName = "spider.ply";
-		pSpider->setUniformScale(0.2f);
-		vec_pObjectsToDraw.push_back(pSpider);
-	}
 
 
 
@@ -128,28 +108,18 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		vec_pObjectsToDraw.push_back(pRoom);
 	}
 
-	for (int count = 0; count < 4; count++)
 	{
-		cMeshObject* pBlunt = new cMeshObject();
-		pBlunt->position = glm::vec3(0.0f, 0.0f, 300.0f);
-	//	pBlunt->postRotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	//	pBlunt->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
-		pBlunt->friendlyName = "blunt" + std::to_string(count);
-		pBlunt->meshName = "blunt.ply";
-		pBlunt->setUniformScale(1.5f);
-		pBlunt->bIsVisible = true;
-		vec_pObjectsToDraw.push_back(pBlunt);
+		cMeshObject* pFire = new cMeshObject();
+		pFire->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		//pSpider->postRotation = glm::vec3(0.0f, glm::radians(-20.0f), 0.0f);
+	//	pRoom->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
+		pFire->friendlyName = "bonfire";
+		pFire->meshName = "assets/models/fire.ply";
+		//pRoom->setUniformScale(50.0f);
+		pFire->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pFire);
 	}
 
-	{
-		cMeshObject* pTable = new cMeshObject();
-		pTable->position = glm::vec3(0.0f, 0.0f, 0.0f);
-	//	pTable->objColour = glm::vec3(85 / 255.0f, 33 / 255.0f, 18 / 255.0f);
-		//pTable->setUniformScale(0.9f);
-		pTable->friendlyName = "table";
-		pTable->meshName = "table.ply";
-		vec_pObjectsToDraw.push_back(pTable);
-	}
 
 
 
@@ -173,18 +143,7 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		vec_pObjectsToDraw.push_back(pChest_top);
 	}
 
-	for(int torch_count = 0; torch_count < 4; torch_count++)
-	{
-		cMeshObject* pTorch = new cMeshObject();
-		pTorch->position = glm::vec3(torch_count * 10.0f, 0.0f, 300.0f);
-	//	pTorch->postRotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	//	pTorch->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
-		pTorch->friendlyName = "torch" + std::to_string(torch_count);
-		pTorch->meshName = "torch.ply";
-		pTorch->setUniformScale(1.0f);
-		pTorch->bIsVisible = true;
-		vec_pObjectsToDraw.push_back(pTorch);
-	}
+
 
 
 
