@@ -180,6 +180,7 @@
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />
     <ClInclude Include="cShaderManager.h" />
+    <ClInclude Include="fmodStuff.h" />
     <ClInclude Include="globalOpenGLStuff.h" />
     <ClInclude Include="globalStuff.h" />
     <ClInclude Include="linmath.h" />

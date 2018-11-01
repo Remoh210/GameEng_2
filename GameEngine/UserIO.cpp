@@ -1,5 +1,5 @@
 #include "globalOpenGLStuff.h"
-
+#include "fmodStuff.h"
 #include "globalStuff.h"
 //#include <vector>
 #include <iostream>
@@ -8,10 +8,10 @@ int index = 0;
 // This has all the keyboard, mouse, and controller stuff
 float lastX;
 float lastY;
-
+bool bIsPaused;
 float pitch;
 float yaw;
-
+int grIndx = 0;
 extern sLight* pTheOneLight;	//  = NULL;
 extern cLightManager* LightManager;
 int lightIndex = 0;
@@ -27,7 +27,7 @@ void SwitchToWireFrame(std::vector<cMeshObject*> models);
 
 
 void SwitchToSolid(std::vector<cMeshObject*> models);
-
+void soundControl(int numb, GLFWwindow* window);
 
 void key_callback(GLFWwindow* window,
 	int key,
@@ -36,6 +36,8 @@ void key_callback(GLFWwindow* window,
 	int mods)
 {
 	cMeshObject* Skull = findObjectByFriendlyName("skull");
+	cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
+	cMeshObject* speaker = findObjectByFriendlyName("speaker");
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -119,18 +121,18 @@ void key_callback(GLFWwindow* window,
 	}
 
 
-	//SAVE LOAD SECOND SCENE
-	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 	{
-		loadModels("Models_Scene_2.txt", vec_pObjectsToDraw);
-		loadLights("lights_Scene_2.txt", LightManager->vecLights);
-
+		if (bIsPaused == false) {
+			_result = _channel_groups[grIndx]->setPaused(true);
+			bIsPaused = true;
+		}
+		else if (bIsPaused == true) { _result = _channel_groups[grIndx]->setPaused(false); bIsPaused = false; }
 	}
 
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
 	{
-		//saveModelInfo("Models_Scene_2.txt", vec_pObjectsToDraw);
-		//saveLightInfo("lights_Scene_2.txt", LightManager->vecLights);
+
 	}
 
 
@@ -152,10 +154,16 @@ void key_callback(GLFWwindow* window,
 
 
 
-	if (bIsAnimation)
+	if (glm::distance(g_CameraEye, bonfire->position) < 30.0f)
 	{
-
+		soundControl(1, window);
 	}
+
+	if (glm::distance(g_CameraEye, speaker->position) < 100.0f)
+	{
+		soundControl(0, window);
+	}
+
 
 	return;
 }
@@ -228,7 +236,6 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	if (IsShiftDown(window)) { return false; }
 	if (IsCtrlDown(window)) { return false; }
 	if (IsAltDown(window)) { return false; }
-	// Yup, they are all UP
 	return true;
 }
 
@@ -239,18 +246,11 @@ void ProcessAsynKeys(GLFWwindow* window)
 
 
 
-	//AnimateShip
+
 	if (bIsAnimation)
 	{
 
 	}
-	//Ship Lights
-
-
-	// WASD + q = "up", e = down		y axis = up and down
-	//									x axis = left and right
-	//									z axis = forward and backward
-	// 
 
 	float cameraSpeed = CAMERA_SPEED_SLOW;
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
@@ -356,7 +356,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 		}//Blue
 
 		if (glfwGetKey(window, GLFW_KEY_R)) { LightManager->vecLights.at(lightIndex)->SetRelativeDirectionByLookAt(vec_pObjectsToDraw.at(index)->position); }
-		//if (glfwGetKey(window, GLFW_KEY_B)) { LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f); }
+	
 
 
 
@@ -377,6 +377,18 @@ void ProcessAsynKeys(GLFWwindow* window)
 
 	}
 
+	//Some Sound controls
+	if(IsShiftDown(window))
+	{
+		if (glfwGetKey(window, GLFW_KEY_1))
+		{ 
+			grIndx = 0;
+		}//Red
+		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 1; }//Green
+		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; }//Green
+		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; }//Green
+
+	}
 
 
 	//OBJECT CONTROL***********************************************************
@@ -392,10 +404,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 		////Object Rotation
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.1f, 0.0f, false); }
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, -0.1f, 0.0f, false); }
-		//if ( glfwGetKey( window, GLFW_KEY_UP ) )	{ vec_pObjectsToDraw.at(index)->postRotation.x += 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_DOWN ) )	{ vec_pObjectsToDraw.at(index)->postRotation.x -= 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z += 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_C ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z -= 0.1f; }
+
 
 		if (glfwGetKey(window, GLFW_KEY_V)) { vec_pObjectsToDraw.at(index)->nonUniformScale += 0.01f; }
 		if (glfwGetKey(window, GLFW_KEY_B)) { vec_pObjectsToDraw.at(index)->nonUniformScale -= 0.01f; }
@@ -426,6 +435,72 @@ void SwitchToSolid(std::vector<cMeshObject*> models)
 	{
 		cMeshObject* CurModel = *it;
 		CurModel->bIsWireFrame = false;
+
+	}
+}
+
+
+void soundControl(int numb, GLFWwindow* window)
+{
+	if (_channel_groups[numb])
+	{
+		if (glfwGetKey(window, GLFW_KEY_ENTER))
+		{
+			_channel_groups[numb]->getPaused(&bIsPaused);
+			if(bIsPaused == true){
+			_result = _channel_groups[numb]->setPaused(true);
+			}
+			if (bIsPaused == false) {
+				_result = _channel_groups[numb]->setPaused(false);
+			}
+		}
+		//Volume
+		if (glfwGetKey(window, GLFW_KEY_UP))
+		{
+			//_result = _channel[numb]->getVolume(&_channel_volume);
+			//assert(!_result);
+			_channel_volume = (_channel_volume >= 1.0f) ? 1.0f : (_channel_volume + 0.05f);
+
+			_result = _channel_groups[numb]->setVolume(_channel_volume);
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
+		{
+			//_result = _channel[numb]->getVolume(&_channel_volume);
+			//assert(!_result);
+			_channel_volume = (_channel_volume <= 0.0f) ? 0.01f : (_channel_volume - 0.05f);
+			_result = _channel_groups[numb]->setVolume(_channel_volume);
+			assert(!_result);
+		}
+		//PAN
+		if (glfwGetKey(window, GLFW_KEY_LEFT))
+		{
+			_channel_pan = (_channel_pan <= -1.0f) ? -1.0f : (_channel_pan - 0.01f);
+			_result = _channel_groups[numb]->setPan(_channel_pan);
+			assert(!_result);
+		}
+		if (glfwGetKey(window, GLFW_KEY_RIGHT))
+		{
+			_channel_pan = (_channel_pan >= 1.0f) ? 1.0f : (_channel_pan + 0.01f);
+			_result = _channel_groups[numb]->setPan(_channel_pan);
+			assert(!_result);
+		}
+
+		//Pitch
+		if (glfwGetKey(window, GLFW_KEY_N))
+		{
+
+
+			//_channel_pitch = (_channel_pitch <= 0.0f) ? 0.01f : (_channel_pitch - 0.0005f);
+			_channel_pitch -=  0.0005f;
+			_result = _channel_groups[numb]->setPitch((_channel_pitch));
+			assert(!_result);
+		}
+		if (glfwGetKey(window, GLFW_KEY_M))
+		{
+			_channel_pitch = (_channel_pitch >= 2.0f) ? 2.0f : (_channel_pitch + 0.0005f);
+			_result = _channel_groups[numb]->setPitch((_channel_pitch));
+			assert(!_result);
+		}
 
 	}
 }

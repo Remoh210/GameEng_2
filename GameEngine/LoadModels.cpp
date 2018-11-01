@@ -11,30 +11,6 @@
 void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID )
 {
 
-	sModelDrawInfo tableInfo;
-	tableInfo.meshFileName = "table.ply";					// "mig29_xyz.ply";
-	pTheVAOMeshManager->LoadModelIntoVAO(tableInfo, shaderProgramID);
-
-	sModelDrawInfo torchInfo;
-	torchInfo.meshFileName = "torch.ply";					// "mig29_xyz.ply";
-	pTheVAOMeshManager->LoadModelIntoVAO(torchInfo, shaderProgramID);
-
-	sModelDrawInfo teapotInfo;
-	teapotInfo.meshFileName = "Utah_Teapot_xyz_n.ply";			// "Utah_Teapot_xyz.ply";
-	pTheVAOMeshManager->LoadModelIntoVAO(teapotInfo, shaderProgramID);
-
-	sModelDrawInfo terrainInfo;
-	terrainInfo.meshFileName = "MeshLab_Fractal_Terrain_xyz_n.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
-	// Will alow me to update the vertex data in the mesh
-	terrainInfo.bVertexBufferIsDynamic = true;
-	pTheVAOMeshManager->LoadModelIntoVAO(terrainInfo, shaderProgramID);
-	
-	sModelDrawInfo bluntInfo;
-	bluntInfo.meshFileName = "blunt.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
-	// Will alow me to update the vertex data in the mesh
-	bluntInfo.bVertexBufferIsDynamic = true;
-	pTheVAOMeshManager->LoadModelIntoVAO(bluntInfo, shaderProgramID);
-
 	sModelDrawInfo chest_bottomInfo;
 	chest_bottomInfo.meshFileName = "chest_bottom.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
 	// Will alow me to update the vertex data in the mesh
@@ -61,10 +37,25 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	pTheVAOMeshManager->LoadModelIntoVAO(skullInfo, shaderProgramID);
 
 	sModelDrawInfo FireInfo;
-	FireInfo.meshFileName = "assets/models/fire.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
-	// Will alow me to update the vertex data in the mesh
+	FireInfo.meshFileName = "assets/models/fire.ply";	
 	FireInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(FireInfo, shaderProgramID);
+
+	sModelDrawInfo SpeakerInfo;
+	SpeakerInfo.meshFileName = "assets/models/speaker.ply";
+	SpeakerInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(SpeakerInfo, shaderProgramID);
+
+	sModelDrawInfo WolfInfo;
+	WolfInfo.meshFileName = "assets/models/wolf.ply";
+	WolfInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(WolfInfo, shaderProgramID);
+
+	sModelDrawInfo GramophoneInfo;
+	GramophoneInfo.meshFileName = "assets/models/gramophone.ply";	
+	GramophoneInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(GramophoneInfo, shaderProgramID);
+	
 
 	// At this point, mesh in in GPU
 	std::cout << "Mesh was loaded OK" << std::endl;
@@ -76,6 +67,49 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 // Loads the models we are drawing into the vector
 void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 {
+
+
+	{
+		cMeshObject* pFire = new cMeshObject();
+		pFire->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		pFire->friendlyName = "bonfire";
+		pFire->meshName = "assets/models/fire.ply";
+		pFire->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pFire);
+	}
+
+
+	{
+		cMeshObject* pSpeaker = new cMeshObject();
+		pSpeaker->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		pSpeaker->setUniformScale(0.2f);
+		pSpeaker->friendlyName = "speaker";
+		pSpeaker->meshName = "assets/models/speaker.ply";
+		pSpeaker->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pSpeaker);
+	}
+
+
+	{
+		cMeshObject* pWolf = new cMeshObject();
+		pWolf->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		pWolf->setUniformScale(2.0f);
+		pWolf->friendlyName = "wolf";
+		pWolf->meshName = "assets/models/wolf.ply";
+		pWolf->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pWolf);
+	}
+
+	{
+		cMeshObject* pGram = new cMeshObject();
+		pGram->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		pGram->setUniformScale(100.0f);
+		pGram->friendlyName = "gramophone";
+		pGram->meshName = "assets/models/gamophone.ply";
+		pGram->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pGram);
+	}
+
 
 
 
@@ -107,20 +141,6 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pRoom->bIsVisible = true;
 		vec_pObjectsToDraw.push_back(pRoom);
 	}
-
-	{
-		cMeshObject* pFire = new cMeshObject();
-		pFire->position = glm::vec3(0.0f, 0.0f, 0.0f);
-		//pSpider->postRotation = glm::vec3(0.0f, glm::radians(-20.0f), 0.0f);
-	//	pRoom->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
-		pFire->friendlyName = "bonfire";
-		pFire->meshName = "assets/models/fire.ply";
-		//pRoom->setUniformScale(50.0f);
-		pFire->bIsVisible = true;
-		vec_pObjectsToDraw.push_back(pFire);
-	}
-
-
 
 
 	{

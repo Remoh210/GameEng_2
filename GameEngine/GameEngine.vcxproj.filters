@@ -125,6 +125,9 @@
     <ClInclude Include="cLightHelper.h">
       <Filter>LightManager</Filter>
     </ClInclude>
+    <ClInclude Include="fmodStuff.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fragment01.glsl">

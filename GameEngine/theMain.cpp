@@ -13,7 +13,7 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
-#include <assert.h>
+#include "fmodStuff.h"
 #include <stdlib.h>
 #include <stdio.h>		// printf();
 #include <iostream>		// cout (console out)
@@ -21,18 +21,13 @@
 #include <vector>		// "smart array" dynamic array
 
 #include "cShaderManager.h"
-#include "fmod.hpp"
-#include <fmod_errors.h>
+
 #include "cMeshObject.h"
 #include "cVAOMeshManager.h"
 #include "cLightHelper.h"
 
 
 //FMOD Globals /***********************************************
-
-#define NUM_OF_SOUNDS 10
-#define NUM_OF_CHANNEL_GROUPS 4
-//FMOD
 FMOD_RESULT _result = FMOD_OK;
 FMOD::System *_system = NULL;
 FMOD::Sound *_sound[NUM_OF_SOUNDS];
@@ -42,9 +37,10 @@ FMOD::DSP *_dsp_echo;
 
 FMOD_VECTOR _channel_position1;
 FMOD_VECTOR _channel_position2;
+FMOD_VECTOR _channel_position3;
 FMOD_VECTOR _channel_velocity = { 0.0f, 0.0f, 0.0f };
 FMOD_VECTOR _listener_position = { 0.0f, 0.0f, 0.0f };
-FMOD_VECTOR _forward = { 0.0f, 0.0f, -1.0f };
+FMOD_VECTOR _forward = { 0.0f, 0.0f, 0.0f };
 FMOD_VECTOR _up = { 0.0f, 1.0f, 0.0f };
 
 //Functions
@@ -54,6 +50,14 @@ void LoadFromFile();
 void SetUpSound();
 void UpdateSound();
 
+
+unsigned int _channel_position = 0;
+unsigned int _sound_lenght = 0;
+float _channel_frequency = 0.0f;
+float _channel_volume = 1.0f;
+float _channel_pan = 0.0f;
+char _songname[128];
+float _channel_pitch = 1.0f;
 
 //FMOD Globals /***********************************************
 
@@ -595,7 +599,7 @@ void SetUpSound()
 
 
 	//3d Sound 
-	_result = _sound[0]->set3DMinMaxDistance(100.0f, 10000.0f);
+	_result = _sound[0]->set3DMinMaxDistance(30.0f, 10000.0f);
 	assert(!_result);
 	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
@@ -604,28 +608,47 @@ void SetUpSound()
 	_channel_position1 = { 0.0f,0.0f,0.0f };
 	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
 	assert(!_result);
+	//second
+	_result = _sound[1]->set3DMinMaxDistance(10.0f, 100000.0f);
+	assert(!_result);
+	_result = _sound[1]->setMode(FMOD_LOOP_NORMAL);
+	assert(!_result);
+	_result = _system->playSound(_sound[1], _channel_groups[0], false, &_channel[1]);
+	assert(!_result);
+	_channel_position2 = { 0.0f,0.0f,0.0f };
+	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);
+	assert(!_result);
+	//Third
+	_result = _sound[2]->set3DMinMaxDistance(10.0f, 100000.0f);
+	assert(!_result);
+	_result = _sound[2]->setMode(FMOD_LOOP_NORMAL);
+	assert(!_result);
+	_result = _system->playSound(_sound[2], _channel_groups[0], false, &_channel[2]);
+	assert(!_result);
+	_channel_position3 = { 0.0f,0.0f,0.0f };
+	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);
+	assert(!_result);
+
+
 
 	//Streaming Sounds
 
-	//_result = _system->playSound(_sound[3], _channel_groups[1], false, &_channel[4]);
-	//assert(!_result);
+	_result = _system->playSound(_sound[3], _channel_groups[1], true, &_channel[4]);
+	assert(!_result);
 
 	//TODO7: Create dsp echo
-	//_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);
-	//assert(!_result);
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);
+	assert(!_result);
 
-	//_result = _channel_groups[1]->addDSP(0, _dsp_echo);
-	//assert(!_result);
-	//_result = _dsp_echo->setBypass(true);
-	//assert(!_result);
+	_result = _channel_groups[1]->addDSP(0, _dsp_echo);
+	assert(!_result);
+	_result = _dsp_echo->setBypass(true);
+	assert(!_result);
 }
 
 void UpdateSound() {
 	//listener Position
 	_listener_position = { g_CameraEye.x, g_CameraEye.y, g_CameraEye.z };
-	//glm::vec3 cameraF = glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f));
-	//cameraFront =
-
 	glm::vec3 horizon = glm::normalize(glm::cross(cameraFront, cameraUp));
 	glm::vec3 newup = glm::normalize(glm::cross(horizon, cameraFront));
 	_up = { newup.x, newup.y, newup.z };
@@ -633,10 +656,24 @@ void UpdateSound() {
 	_result = _system->set3DListenerAttributes(0, &_listener_position, &_channel_velocity, &_forward, &_up);
 	assert(!_result);
 
+
+
 	//Sound 1 position
 	cMeshObject* bonfire = findObjectByFriendlyName("bonfire");
 	_channel_position1 = { bonfire->position.x, bonfire->position.y, bonfire->position.z };
 	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
+
+	//Sound 2 position
+	cMeshObject* speaker = findObjectByFriendlyName("speaker");
+	_channel_position2 = { speaker->position.x, speaker->position.y, speaker->position.z };
+	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);
+
+
+	//Sound 3 position
+	cMeshObject* wolf = findObjectByFriendlyName("wolf");
+	_channel_position2 = { wolf->position.x, wolf->position.y, wolf->position.z };
+	_result = _channel[2]->set3DAttributes(&_channel_position2, &_channel_velocity);
+
 
 	_result = _system->update();
 	assert(!_result);
