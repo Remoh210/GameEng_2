@@ -39,6 +39,9 @@ FMOD::DSP *_dsp_chor;
 FMOD::DSP *_dsp_flange;
 FMOD::DSP *_dsp_high_pass;
 FMOD::DSP *_dsp_low_pass;
+FMOD::DSP *_dsp_tremolo;
+FMOD::DSP *_dsp_pitch_shift;
+FMOD::DSP *_dsp_low_normalize;
 
 FMOD_VECTOR _channel_position1;
 FMOD_VECTOR _channel_position2;
@@ -578,7 +581,7 @@ void SetUpSound()
 
 
 	//3d Sound 
-	_result = _sound[0]->set3DMinMaxDistance(30.0f, 10000.0f);
+	_result = _sound[0]->set3DMinMaxDistance(100.0f, 100000.0f);
 	assert(!_result);
 	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
@@ -698,9 +701,29 @@ void SetUpSound()
 
 	//GR 4 
 
-	//_FLANGE //param 2 0.1 - 20.0
-	//FMOD_DSP_TYPE_HIGHPASS
-	//FMOD_DSP_TYPE_ITLOWPASS
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_TREMOLO, &_dsp_tremolo);
+	assert(!_result);
+	_result = _channel_groups[4]->addDSP(0, _dsp_tremolo);
+	assert(!_result);
+	_result = _dsp_tremolo->setBypass(true);
+	assert(!_result);
+
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_PITCHSHIFT, &_dsp_pitch_shift);
+	assert(!_result);
+	_result = _channel_groups[4]->addDSP(0, _dsp_pitch_shift);
+	assert(!_result);
+	_result = _dsp_pitch_shift->setParameterFloat(0, 2.0f);
+	_result = _dsp_pitch_shift->setBypass(true);
+	assert(!_result);
+
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_NORMALIZE, &_dsp_low_normalize);
+	assert(!_result);
+	_result = _channel_groups[4]->addDSP(0, _dsp_low_normalize);
+	assert(!_result);
+	_result = _dsp_low_normalize->setBypass(true);
+
 	//FMOD_DSP_TYPE_TREMOL
 	//FMOD_DSP_TYPE_PITCHSHIFT 2.0f ind 0
 	//FMOD_DSP_TYPE_NORMALIZE

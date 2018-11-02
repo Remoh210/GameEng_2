@@ -223,8 +223,6 @@ void key_callback(GLFWwindow* window,
 
 
 	
-;
-
 	if (glfwGetKey(window, GLFW_KEY_6))
 	{
 		if (grIndx == 2) {
@@ -260,7 +258,19 @@ void key_callback(GLFWwindow* window,
 		}
 		if (grIndx == 4)
 		{
-
+			if (bPass == true) {
+				_result = _dsp_tremolo->setBypass(false);
+				assert(!_result);
+				bPass = false;
+				std::cout << "tremolo for channel group " << grIndx << " activated" << std::endl;
+			}
+			else if (bPass == false)
+			{
+				_result = _dsp_tremolo->setBypass(true);
+				assert(!_result);
+				bPass = true;
+				std::cout << "tremolo for channel group " << grIndx << " deactivated" << std::endl;
+			}
 		}
 
 	}
@@ -301,7 +311,19 @@ void key_callback(GLFWwindow* window,
 		}
 		if (grIndx == 4)
 		{
-
+			if (bPass == true) {
+				_result = _dsp_pitch_shift->setBypass(false);
+				assert(!_result);
+				bPass = false;
+				std::cout << "pitch_shift for channel group " << grIndx << " activated" << std::endl;
+			}
+			else if (bPass == false)
+			{
+				_result = _dsp_pitch_shift->setBypass(true);
+				assert(!_result);
+				bPass = true;
+				std::cout << "pitch_shift for channel group " << grIndx << " deactivated" << std::endl;
+			}
 		}
 
 	}
@@ -342,7 +364,19 @@ void key_callback(GLFWwindow* window,
 			}
 			if (grIndx == 4)
 			{
-
+				if (bPass == true) {
+					_result = _dsp_low_normalize->setBypass(false);
+					assert(!_result);
+					bPass = false;
+					std::cout << "normalize for channel group " << grIndx << " activated" << std::endl;
+				}
+				else if (bPass == false)
+				{
+					_result = _dsp_low_normalize->setBypass(true);
+					assert(!_result);
+					bPass = true;
+					std::cout << "normalize for channel group " << grIndx << " deactivated" << std::endl;
+				}
 			}
 
 		}

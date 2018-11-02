@@ -22,6 +22,10 @@ extern FMOD::DSP *_dsp_flange;
 extern FMOD::DSP *_dsp_high_pass;
 extern FMOD::DSP *_dsp_low_pass;
 
+extern FMOD::DSP *_dsp_tremolo;
+extern FMOD::DSP *_dsp_pitch_shift;
+extern FMOD::DSP *_dsp_low_normalize;
+
 extern FMOD_VECTOR _channel_position1;
 extern FMOD_VECTOR _channel_position2;
 extern FMOD_VECTOR _channel_position3;
@@ -38,3 +42,6 @@ extern float _channel_volume;
 extern float _channel_pan;
 extern char _songname[128];
 extern float _channel_pitch;
+
+
+
