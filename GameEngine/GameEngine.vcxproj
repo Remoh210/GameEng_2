@@ -165,9 +165,6 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="LoadModels.cpp" />
     <ClCompile Include="ObjectTest.cpp" />
-    <ClCompile Include="OpenGLMeshLoader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="PhysicsStuff.cpp" />
     <ClCompile Include="PlyFileLoader.cpp" />
     <ClCompile Include="sModelDrawInfo.cpp" />

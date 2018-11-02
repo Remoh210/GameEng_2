@@ -82,43 +82,36 @@ DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  0.2 0.2 0.2
-Friendly_Name skull
-Mesh_Name skull.ply
-Position 0 50 0
-DiffureRGB_Alpha  1 0.4 0.1 1
-SpecularRGB_Power 1 1 1 100
-QuatXYZW_rotation 0 0 0 1
-Scale  1.5 1.5 1.5
 Friendly_Name room
-Mesh_Name room.ply
+Mesh_Name assets/models/room.ply
 Position 0 0 300
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  50 50 50
-Friendly_Name room
-Mesh_Name room.ply
+Friendly_Name room2
+Mesh_Name assets/models/room.ply
 Position 1943 0 300
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  50 50 50
 Friendly_Name chest_bottom
-Mesh_Name chest_bottom.ply
+Mesh_Name assets/models/chest_bottom.ply
 Position -675 -20 520
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  1 1 1
 Friendly_Name chest_top
-Mesh_Name chest_top.ply
+Mesh_Name assets/models/chest_top.ply
 Position -740 30 505
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  1 1 1
 Friendly_Name DebugSphere
-Mesh_Name Sphere_320_faces_xyz_n.ply
+Mesh_Name assets/models/Sphere_320_faces_xyz_n.ply
 Position 1759 739 0
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1

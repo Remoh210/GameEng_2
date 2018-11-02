@@ -54,9 +54,6 @@
     <ClCompile Include="PlyFileLoader.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLMeshLoader.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sModelDrawInfo.cpp">
       <Filter>Mesh Manager</Filter>
     </ClCompile>

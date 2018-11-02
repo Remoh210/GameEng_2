@@ -471,8 +471,8 @@ bool AreAllModifiersUp(GLFWwindow* window)
 
 void ProcessAsynKeys(GLFWwindow* window)
 {
-	const float CAMERA_SPEED_SLOW = 3.0f;
-	const float CAMERA_SPEED_FAST = 10.0f;
+	const float CAMERA_SPEED_SLOW = 8.0f;
+	const float CAMERA_SPEED_FAST = 12.0f;
 
 
 

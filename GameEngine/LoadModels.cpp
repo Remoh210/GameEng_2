@@ -12,29 +12,23 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 {
 
 	sModelDrawInfo chest_bottomInfo;
-	chest_bottomInfo.meshFileName = "chest_bottom.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
+	chest_bottomInfo.meshFileName = "assets/models/chest_bottom.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
 	// Will alow me to update the vertex data in the mesh
 	chest_bottomInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(chest_bottomInfo, shaderProgramID);
 
 	sModelDrawInfo chest_topInfo;
-	chest_topInfo.meshFileName = "chest_top.ply";	
+	chest_topInfo.meshFileName = "assets/models/chest_top.ply";	
 	chest_topInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(chest_topInfo, shaderProgramID);
 
 	sModelDrawInfo sphereInfo;
-	sphereInfo.meshFileName = "Sphere_320_faces_xyz_n.ply";			// "Sphere_320_faces_xyz.ply";
+	sphereInfo.meshFileName = "assets/models/Sphere_320_faces_xyz_n.ply";			// "Sphere_320_faces_xyz.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(sphereInfo, shaderProgramID);
 
 	sModelDrawInfo roomInfo;
-	roomInfo.meshFileName = "room.ply";			// "Sphere_320_faces_xyz.ply";
+	roomInfo.meshFileName = "assets/models/room.ply";			// "Sphere_320_faces_xyz.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(roomInfo, shaderProgramID);
-
-	sModelDrawInfo skullInfo;
-	skullInfo.meshFileName = "skull.ply";	// "MeshLab_Fractal_Terrain_xyz.ply";
-	// Will alow me to update the vertex data in the mesh
-	skullInfo.bVertexBufferIsDynamic = true;
-	pTheVAOMeshManager->LoadModelIntoVAO(skullInfo, shaderProgramID);
 
 	sModelDrawInfo FireInfo;
 	FireInfo.meshFileName = "assets/models/fire.ply";	
@@ -50,11 +44,6 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	WolfInfo.meshFileName = "assets/models/wolf.ply";
 	WolfInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(WolfInfo, shaderProgramID);
-
-	sModelDrawInfo GramophoneInfo;
-	GramophoneInfo.meshFileName = "assets/models/gram.ply";	
-	GramophoneInfo.bVertexBufferIsDynamic = true;
-	pTheVAOMeshManager->LoadModelIntoVAO(GramophoneInfo, shaderProgramID);
 	
 
 	// At this point, mesh in in GPU
@@ -119,32 +108,12 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 
 
 
-
-
-
-	{
-		cMeshObject* pSkull = new cMeshObject();
-		pSkull->position = glm::vec3(0.0f, 50.0f, 0.0f);
-		//pSkull->setSpecularColour(glm::vec3(1.0f, 0.4f, 0.1f));
-		pSkull->setDiffuseColour(glm::vec3(1.0f, 0.4f, 0.1f));
-		pSkull->setSpecularPower(100.0f);
-		pSkull->friendlyName = "skull";
-	//	pSkull->bIsInteractable = true;
-		pSkull->meshName = "skull.ply";		
-		pSkull->setUniformScale(1.5f);
-		vec_pObjectsToDraw.push_back(pSkull);
-	}
-
-
-
-
-
 	{
 		cMeshObject* pRoom = new cMeshObject();
 		pRoom->position = glm::vec3(0.0f, 0.0f, 300.0f);
 		//pSpider->postRotation = glm::vec3(0.0f, glm::radians(-20.0f), 0.0f);
 	//	pRoom->objColour = glm::vec3(0.74f, 0.86f, 1.0f);
-		pRoom->friendlyName = "room";
+		pRoom->friendlyName = "room2";
 		pRoom->meshName = "room.ply";
 		pRoom->setUniformScale(50.0f);
 		pRoom->bIsVisible = true;
