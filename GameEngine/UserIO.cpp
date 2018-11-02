@@ -11,7 +11,7 @@ float lastY;
 bool bIsPaused;
 float pitch;
 float yaw;
-int grIndx = 0;
+int grIndx = 1;
 extern sLight* pTheOneLight;	//  = NULL;
 extern cLightManager* LightManager;
 int lightIndex = 0;
@@ -92,21 +92,6 @@ void key_callback(GLFWwindow* window,
 		std::cout << "Light " << LightManager->vecLights.at(lightIndex)->lightName << " is Chosen" << std::endl;
 	}
 
-	if (key == GLFW_KEY_F && action == GLFW_PRESS)
-	{
-
-		bIsAnimation = false;
-
-	}
-	if (key == GLFW_KEY_J && action == GLFW_PRESS)
-	{
-
-		bIsAnimation = true;
-
-	}
-
-
-
 
 	//TURN ON The Light
 
@@ -123,13 +108,19 @@ void key_callback(GLFWwindow* window,
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 	{
-		if (bIsPaused == false) {
+		if (bIsPaused == false)
+		{
 			_result = _channel_groups[grIndx]->setPaused(true);
 			bIsPaused = true;
+			std::cout << "channel group " << grIndx << " paused" << std::endl;
 		}
-		else if (bIsPaused == true) { _result = _channel_groups[grIndx]->setPaused(false); bIsPaused = false; }
+		else if (bIsPaused == true) 
+		{
+			_result = _channel_groups[grIndx]->setPaused(false); bIsPaused = false; 
+			std::cout << "channel group " << grIndx << " unpaused" << std::endl;
+		}
 	}
-
+	
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
 	{
 
@@ -154,22 +145,80 @@ void key_callback(GLFWwindow* window,
 
 
 
-
-
-
-
-	if(glm::distance(g_CameraEye, vec_Sound_Obj.at(0)->position) < 50)
+	if(glm::distance(g_CameraEye, vec_Sound_Obj.at(0)->position) < 200)
 	{
 		_result = _channel[0]->setPaused(false);
 	}
-	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(1)->position) < 50)
+	//else { _result = _channel[0]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(1)->position) < 400)
 	{
 		_result = _channel[1]->setPaused(false);
 	}
-	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(2)->position) < 50)
+	//else { _result = _channel[1]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(2)->position) < 400)
 	{
 		_result = _channel[2]->setPaused(false);
 	}
+	//else { _result = _channel[2]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(3)->position) < 300)
+	{
+		_result = _channel[3]->setPaused(false);
+	}
+	else { _result = _channel[3]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(4)->position) < 300)
+	{
+		_result = _channel[4]->setPaused(false);
+	}
+	else { _result = _channel[4]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(5)->position) < 300)
+	{
+		_result = _channel[5]->setPaused(false);
+	}
+	else { _result = _channel[5]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(6)->position) < 300)
+	{
+		_result = _channel[6]->setPaused(false);
+	}
+	else { _result = _channel[6]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(7)->position) < 300)
+	{
+		_result = _channel[7]->setPaused(false);
+	}
+	else { _result = _channel[7]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(8)->position) < 300)
+	{
+		_result = _channel[8]->setPaused(false);
+	}
+	else { _result = _channel[8]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(9)->position) < 300)
+	{
+		_result = _channel[9]->setPaused(false);
+	}
+	else { _result = _channel[9]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(10)->position) < 300)
+	{
+		_result = _channel[10]->setPaused(false);
+	}
+	else { _result = _channel[10]->setPaused(true); }
+
+	if (glm::distance(g_CameraEye, vec_Sound_Obj.at(11)->position) < 300)
+	{
+		_result = _channel[11]->setPaused(false);
+	}
+	else { _result = _channel[11]->setPaused(true); }
+
+
+
 
 
 
@@ -389,12 +438,11 @@ void ProcessAsynKeys(GLFWwindow* window)
 	if(IsShiftDown(window))
 	{
 		if (glfwGetKey(window, GLFW_KEY_1))
-		{ 
-			grIndx = 0;
-		}//Red
-		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 1; }//Green
+		{ grIndx = 1;}//Red
 		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; }//Green
-		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; }//Green
+		if (glfwGetKey(window, GLFW_KEY_3)) { grIndx = 3; }//Green
+		if (glfwGetKey(window, GLFW_KEY_4)) { grIndx = 4; }//Green
+		soundControl(grIndx, window);
 
 	}
 
@@ -494,20 +542,26 @@ void soundControl(int numb, GLFWwindow* window)
 		}
 
 		//Pitch
-		if (glfwGetKey(window, GLFW_KEY_N))
+		if (glfwGetKey(window, GLFW_KEY_Z))
 		{
 
 
-			//_channel_pitch = (_channel_pitch <= 0.0f) ? 0.01f : (_channel_pitch - 0.0005f);
-			_channel_pitch -=  0.0005f;
+			_channel_pitch = (_channel_pitch <= 0.0f) ? 0.01f : (_channel_pitch - 0.00005f);
 			_result = _channel_groups[numb]->setPitch((_channel_pitch));
 			assert(!_result);
 		}
-		if (glfwGetKey(window, GLFW_KEY_M))
+		if (glfwGetKey(window, GLFW_KEY_X))
 		{
-			_channel_pitch = (_channel_pitch >= 2.0f) ? 2.0f : (_channel_pitch + 0.0005f);
+			_channel_pitch = (_channel_pitch >= 2.0f) ? 2.0f : (_channel_pitch + 0.00005f);
 			_result = _channel_groups[numb]->setPitch((_channel_pitch));
 			assert(!_result);
+		}
+
+		//DSP EFFECTS
+		if (glfwGetKey(window, GLFW_KEY_6))
+		{
+			//_result = _channel_groups[numb]->addDSP();
+			//assert(!_result);
 		}
 
 	}

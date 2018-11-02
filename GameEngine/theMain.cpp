@@ -88,7 +88,7 @@ glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
 
 
 
-std::string inputFile = "assets/music/songlist.txt";
+std::string inputFile = "assets/music/songlist_compressed.txt";
 
 cShaderManager* pTheShaderManager = NULL;	
 cVAOMeshManager* g_pTheVAOMeshManager = NULL;
@@ -223,40 +223,14 @@ int main(void)
 		pTorch->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
 		pTorch->atten.z = 0.000015f;	//			float quadAtten = 0.001f;
 		pTorch->diffuse = glm::vec4(232 /250.0f, 109 / 250.0f, 27/250.0f, 1.0f);// White light
-		pTorch->param2.x = 0.0f;
+		pTorch->param2.x = 1.0f;
+		pTorch->SetLightType(sLight::POINT_LIGHT);
 		//pTheForthLight->AtenSphere - false;
 		pTorch->lightName = "Torch_Light" + std::to_string(light_count);
 		LightManager->vecLights.push_back(pTorch);
 		LightManager->LoadUniformLocations(program);
 	}
 
-	{
-		sLight* ChestLight = new sLight();
-		ChestLight->position = glm::vec4(-675.0f, 40.0f, 520.0f, 1.0f);
-		ChestLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
-		ChestLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
-		ChestLight->atten.z = 0.000021f;	//			float quadAtten = 0.001f;
-		ChestLight->diffuse = glm::vec4(246 / 250.0f, 10/ 250.0f, 10 / 215.0f, 0.0f);
-		ChestLight->param2.x = 0.0f;
-		//pTheForthLight->AtenSphere - false;
-		ChestLight->lightName = "ChestLight";
-		LightManager->vecLights.push_back(ChestLight);
-		LightManager->LoadUniformLocations(program);
-	}
-
-
-	{
-		sLight* ChestLight = new sLight();
-		ChestLight->position = glm::vec4(-675.0f, 40.0f, 520.0f, 1.0f);
-		ChestLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
-		ChestLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
-		ChestLight->atten.z = 0.000021f;	//			float quadAtten = 0.001f;
-		ChestLight->diffuse = glm::vec4(0.64f, 0.027f, 0.9f, 1.0f);
-		ChestLight->param2.x = 0.0f;
-		ChestLight->lightName = "QuestLight";
-		LightManager->vecLights.push_back(ChestLight);
-		LightManager->LoadUniformLocations(program);
-	}
 
 	//saveLightInfo("Default.txt")
 	cLightHelper* pLightHelper = new cLightHelper();
@@ -584,7 +558,7 @@ void SetUpSound()
 	assert(!_result);
 	_result = _system->createChannelGroup("Music Group 2", &_channel_groups[3]);
 	assert(!_result);
-	_result = _system->createChannelGroup("Music Group 2", &_channel_groups[4]);
+	_result = _system->createChannelGroup("Music Group 3", &_channel_groups[4]);
 	assert(!_result);
 
 	//Set groups children of master group.
@@ -603,38 +577,68 @@ void SetUpSound()
 	assert(!_result);
 	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
-	_result = _system->playSound(_sound[0], _channel_groups[0], true, &_channel[0]);
+	_result = _system->playSound(_sound[0], _channel_groups[1], true, &_channel[0]);
 	assert(!_result);
 	_channel_position1 = { 0.0f,0.0f,0.0f };
 	_result = _channel[0]->set3DAttributes(&_channel_position1, &_channel_velocity);
 	assert(!_result);
 	//second
-	_result = _sound[1]->set3DMinMaxDistance(10.0f, 100000.0f);
+	_result = _sound[1]->set3DMinMaxDistance(30.0f, 100000.0f);
 	assert(!_result);
 	_result = _sound[1]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
-	_result = _system->playSound(_sound[1], _channel_groups[0], true, &_channel[1]);
+	_result = _system->playSound(_sound[1], _channel_groups[1], true, &_channel[1]);
 	assert(!_result);
 	_channel_position2 = { 0.0f,0.0f,0.0f };
 	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);
 	assert(!_result);
 	//Third
-	_result = _sound[2]->set3DMinMaxDistance(10.0f, 100000.0f);
+	_result = _sound[2]->set3DMinMaxDistance(30.0f, 100000.0f);
 	assert(!_result);
 	_result = _sound[2]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);
-	_result = _system->playSound(_sound[2], _channel_groups[0], true, &_channel[2]);
+	_result = _system->playSound(_sound[2], _channel_groups[1], true, &_channel[2]);
 	assert(!_result);
 	_channel_position3 = { 0.0f,0.0f,0.0f };
-	_result = _channel[1]->set3DAttributes(&_channel_position2, &_channel_velocity);
+	_result = _channel[2]->set3DAttributes(&_channel_position2, &_channel_velocity);
 	assert(!_result);
 
 
+	_result = _system->playSound(_sound[3], _channel_groups[2], true, &_channel[3]);
+	assert(!_result);
+	_result = _system->playSound(_sound[4], _channel_groups[2], true, &_channel[4]);
+	assert(!_result);
+	_result = _system->playSound(_sound[5], _channel_groups[2], true, &_channel[5]);
+	assert(!_result);
 
+	_result = _system->playSound(_sound[6], _channel_groups[3], true, &_channel[6]);
+	assert(!_result);
+	_result = _system->playSound(_sound[7], _channel_groups[3], true, &_channel[7]);
+	assert(!_result);
+	_result = _system->playSound(_sound[8], _channel_groups[3], true, &_channel[8]);
+	assert(!_result);
+
+	_result = _system->playSound(_sound[9], _channel_groups[4], true, &_channel[9]);
+	assert(!_result);
+	_result = _system->playSound(_sound[10], _channel_groups[4], true, &_channel[10]);
+	assert(!_result);
+	_result = _system->playSound(_sound[11], _channel_groups[4], true, &_channel[11]);
+	assert(!_result);
 	//Streaming Sounds
-
-	_result = _system->playSound(_sound[3], _channel_groups[1], true, &_channel[4]);
-	assert(!_result);
+	//for (int i = 3; i < 12; i++) {
+	//	if (i < 6) {
+	//		_result = _system->playSound(_sound[i], _channel_groups[2], true, &_channel[i]);
+	//		assert(!_result);
+	//	}
+	//	if (i > 6 || i < 9) {
+	//		_result = _system->playSound(_sound[i], _channel_groups[3], true, &_channel[i]);
+	//		assert(!_result);
+	//	}
+	//	if (i > 9) {
+	//		_result = _system->playSound(_sound[i], _channel_groups[4], true, &_channel[i]);
+	//		assert(!_result);
+	//	}
+	//}
 
 	//TODO7: Create dsp echo
 	_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);

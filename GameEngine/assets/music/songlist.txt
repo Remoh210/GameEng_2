@@ -1,4 +1,4 @@
-assets/music/uncompressed/bonfire.wav
+assets/music/uncompressed/fire.wav
 assets/music/uncompressed/Jordan_Davis_Singles_You_Up.wav
 assets/music/uncompressed/relax.wav
 assets/music/uncompressed/zelda.wav

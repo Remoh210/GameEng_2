@@ -1,10 +1,10 @@
 Friendly_Name bonfire
 Mesh_Name assets/models/fire.ply
-Position -57 -42 609
+Position -102 -72 639
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
-Scale  1 1 1
+Scale  1.64 1.64 1.64
 Friendly_Name speaker
 Mesh_Name assets/models/speaker.ply
 Position -168 54 -597
@@ -14,18 +14,74 @@ QuatXYZW_rotation 0 0 0 1
 Scale  0.37 0.37 0.37
 Friendly_Name wolf
 Mesh_Name assets/models/wolf.ply
-Position -800 40 0
+Position -659 40 -159
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  2 2 2
-Friendly_Name gramophone
-Mesh_Name assets/models/gamophone.ply
-Position 0 0 0
+Friendly_Name speaker0
+Mesh_Name assets/models/speaker.ply
+Position 2249 0 -550
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
-Scale  20 20 20
+Scale  0.2 0.2 0.2
+Friendly_Name speaker1
+Mesh_Name assets/models/speaker.ply
+Position 1717 0 -570
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 0 0 1
+Scale  0.2 0.2 0.2
+Friendly_Name speaker2
+Mesh_Name assets/models/speaker.ply
+Position 1160 0 -550
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 0 0 1
+Scale  0.2 0.2 0.2
+Friendly_Name speaker3
+Mesh_Name assets/models/speaker.ply
+Position 2348 0 81
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 -0.717357 0 0.696707
+Scale  0.2 0.2 0.2
+Friendly_Name speaker4
+Mesh_Name assets/models/speaker.ply
+Position 2345 0 572
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 -0.717357 0 0.696707
+Scale  0.2 0.2 0.2
+Friendly_Name speaker5
+Mesh_Name assets/models/speaker.ply
+Position 1761 0 653
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 -0.997497 0 0.0707371
+Scale  0.2 0.2 0.2
+Friendly_Name speaker6
+Mesh_Name assets/models/speaker.ply
+Position 1114 0 671
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 -0.999575 0 -0.0291994
+Scale  0.2 0.2 0.2
+Friendly_Name speaker7
+Mesh_Name assets/models/speaker.ply
+Position 1129 0 60
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 0 0 1
+Scale  0.2 0.2 0.2
+Friendly_Name speaker8
+Mesh_Name assets/models/speaker.ply
+Position 1750 0 100
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 0 0 1
+Scale  0.2 0.2 0.2
 Friendly_Name skull
 Mesh_Name skull.ply
 Position 0 50 0
@@ -35,14 +91,14 @@ QuatXYZW_rotation 0 0 0 1
 Scale  1.5 1.5 1.5
 Friendly_Name room
 Mesh_Name room.ply
-Position 1980 0 300
+Position 0 0 300
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  50 50 50
 Friendly_Name room
 Mesh_Name room.ply
-Position 0 0 300
+Position 1943 0 300
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
@@ -63,7 +119,7 @@ QuatXYZW_rotation 0 0 0 1
 Scale  1 1 1
 Friendly_Name DebugSphere
 Mesh_Name Sphere_320_faces_xyz_n.ply
-Position 0 76 -45
+Position 1759 739 0
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1

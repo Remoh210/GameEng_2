@@ -6,8 +6,8 @@
 
 
 
-#define NUM_OF_SOUNDS 10
-#define NUM_OF_CHANNEL_GROUPS 4
+#define NUM_OF_SOUNDS 12
+#define NUM_OF_CHANNEL_GROUPS 5
 //FMOD
 extern FMOD_RESULT _result;
 extern FMOD::System *_system;

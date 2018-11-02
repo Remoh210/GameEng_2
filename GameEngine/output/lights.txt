@@ -9,19 +9,19 @@ on_off 1
 Name Torch_Light0
 light_type 0
 In_Out_Angles 0 0
-Position_xyz 0 76 -45
+Position_xyz -103 22 649
 Direction 0 0 0
-Attenuation_xyz 0 0.0001 0.000129626
+Attenuation_xyz 0 0.0001 7.06595e-05
 Diffuse_rgbw 0.928 0.436 0.108 1
 on_off 1
 Name Torch_Light1
 light_type 0
 In_Out_Angles 0 0
-Position_xyz 10 400 0
+Position_xyz 1759 739 0
 Direction 0 0 0
-Attenuation_xyz 0 0.0001 1.5e-05
+Attenuation_xyz 0 3.97214e-05 3.79728e-06
 Diffuse_rgbw 0.928 0.436 0.108 1
-on_off 0
+on_off 1
 Name Torch_Light2
 light_type 0
 In_Out_Angles 0 0
@@ -33,24 +33,8 @@ on_off 0
 Name Torch_Light3
 light_type 0
 In_Out_Angles 0 0
-Position_xyz 30 400 0
+Position_xyz 126 400 0
 Direction 0 0 0
 Attenuation_xyz 0 0.0001 1.5e-05
 Diffuse_rgbw 0.928 0.436 0.108 1
-on_off 0
-Name ChestLight
-light_type 0
-In_Out_Angles 0 0
-Position_xyz -675 40 520
-Direction 0 0 0
-Attenuation_xyz 0 0.0001 2.1e-05
-Diffuse_rgbw 0.984 0.04 0.0465116 0
-on_off 0
-Name QuestLight
-light_type 0
-In_Out_Angles 0 0
-Position_xyz -675 40 520
-Direction 0 0 0
-Attenuation_xyz 0 0.0001 2.1e-05
-Diffuse_rgbw 0.64 0.027 0.9 1
 on_off 0
