@@ -22,63 +22,63 @@ Scale  2 2 2
 Friendly_Name speaker0
 Mesh_Name assets/models/speaker.ply
 Position 2357 0 -550
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  1 0 0 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 -0.198669 0 0.980067
 Scale  0.2 0.2 0.2
 Friendly_Name speaker1
 Mesh_Name assets/models/speaker.ply
 Position 1747 0 -570
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  1 0 0 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  0.2 0.2 0.2
 Friendly_Name speaker2
 Mesh_Name assets/models/speaker.ply
 Position 1115 0 -577
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  1 0 0 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0.389418 0 0.921061
 Scale  0.2 0.2 0.2
 Friendly_Name speaker3
 Mesh_Name assets/models/speaker.ply
 Position 2363 0 30
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  0 1 0 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 -0.717357 0 0.696707
 Scale  0.2 0.2 0.2
 Friendly_Name speaker4
 Mesh_Name assets/models/speaker.ply
 Position 2321 0 617
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  0 1 0 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 -0.891209 0 0.453596
 Scale  0.2 0.2 0.2
 Friendly_Name speaker5
 Mesh_Name assets/models/speaker.ply
 Position 1761 0 653
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  0 1 0 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 -0.997497 0 0.0707371
 Scale  0.2 0.2 0.2
 Friendly_Name speaker6
 Mesh_Name assets/models/speaker.ply
 Position 1132 0 671
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  0 0 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 -0.973849 0 -0.227202
 Scale  0.2 0.2 0.2
 Friendly_Name speaker7
 Mesh_Name assets/models/speaker.ply
 Position 1111 0 69
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  0 0 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0.717357 0 0.696707
 Scale  0.2 0.2 0.2
 Friendly_Name speaker8
 Mesh_Name assets/models/speaker.ply
 Position 1786 0 19
-DiffureRGB_Alpha  1 1 1 1
+DiffureRGB_Alpha  0 0 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  0.2 0.2 0.2
