@@ -19,6 +19,7 @@ bool firstMouse = true;
 
 bool bIsAnimation = false;
 bool bMoveForward = true;
+bool bPass = true;
 
 glm::vec3 Front;
 glm::vec3 Horizontal;
@@ -218,8 +219,141 @@ void key_callback(GLFWwindow* window,
 	else { _result = _channel[11]->setPaused(true); }
 
 
+	//DSP
 
 
+	
+;
+
+	if (glfwGetKey(window, GLFW_KEY_6))
+	{
+		if (grIndx == 2) {
+			if (bPass == true) {
+				_result = _dsp_echo->setBypass(false);
+				assert(!_result);
+				bPass = false;
+				std::cout << "echo for channel group " << grIndx << " activated" << std::endl;
+			}
+			else if (bPass == false)
+			{
+				_result = _dsp_echo->setBypass(true);
+				assert(!_result);
+				bPass = true;
+				std::cout << "echo for channel group " << grIndx << " deactivated" << std::endl;
+			}
+		}
+		if (grIndx == 3)
+		{
+			if (bPass == true) {
+				_result = _dsp_flange->setBypass(false);
+				assert(!_result);
+				bPass = false;
+				std::cout << "flange for channel group " << grIndx << " activated" << std::endl;
+			}
+			else if (bPass == false)
+			{
+				_result = _dsp_flange->setBypass(true);
+				assert(!_result);
+				bPass = true;
+				std::cout << "flange for channel group " << grIndx << " deactivated" << std::endl;
+			}
+		}
+		if (grIndx == 4)
+		{
+
+		}
+
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_7))
+	{
+		if (grIndx == 2) 
+		{
+			if (bPass == true) {
+				_result = _dsp_sfx_reverb->setBypass(false);
+				assert(!_result);
+				bPass = false;
+				std::cout << "fx_reverb for channel group " << grIndx << " activated" << std::endl;
+			}
+			else if (bPass == false)
+			{
+				_result = _dsp_sfx_reverb->setBypass(true);
+				assert(!_result);
+				bPass = true;
+				std::cout << "fx_reverb for channel group " << grIndx << " deactivated" << std::endl;
+			}
+		}
+		if (grIndx == 3)
+		{
+			if (bPass == true) {
+				_result = _dsp_high_pass->setBypass(false);
+				assert(!_result);
+				bPass = false;
+				std::cout << "high_pass for channel group " << grIndx << " activated" << std::endl;
+			}
+			else if (bPass == false)
+			{
+				_result = _dsp_high_pass->setBypass(true);
+				assert(!_result);
+				bPass = true;
+				std::cout << "high_pass for channel group " << grIndx << " deactivated" << std::endl;
+			}
+		}
+		if (grIndx == 4)
+		{
+
+		}
+
+	}
+
+		if (glfwGetKey(window, GLFW_KEY_8))
+		{
+			if (grIndx == 2)
+			{
+				if (bPass == true) {
+					_result = _dsp_chor->setBypass(false);
+					assert(!_result);
+					bPass = false;
+					std::cout << "chor for channel group " << grIndx << " activated" << std::endl;
+				}
+				else if (bPass == false)
+				{
+					_result = _dsp_chor->setBypass(true);
+					assert(!_result);
+					bPass = true;
+					std::cout << "chor for channel group " << grIndx << " deactivated" << std::endl;
+				}
+			}
+			if (grIndx == 3)
+			{
+				if (bPass == true) {
+					_result = _dsp_low_pass->setBypass(false);
+					assert(!_result);
+					bPass = false;
+					std::cout << "low_pass for channel group " << grIndx << " activated" << std::endl;
+				}
+				else if (bPass == false)
+				{
+					_result = _dsp_low_pass->setBypass(true);
+					assert(!_result);
+					bPass = true;
+					std::cout << "low_pass for channel group " << grIndx << " deactivated" << std::endl;
+				}
+			}
+			if (grIndx == 4)
+			{
+
+			}
+
+		}
+
+		
+
+	
+	if (glfwGetKey(window, GLFW_KEY_P))
+	{
+		LightManager->vecLights.at(lightIndex)->AtenSphere = false;
+	}
 
 
 	return;
@@ -437,11 +571,11 @@ void ProcessAsynKeys(GLFWwindow* window)
 	//Some Sound controls
 	if(IsShiftDown(window))
 	{
-		if (glfwGetKey(window, GLFW_KEY_1))
-		{ grIndx = 1;}//Red
-		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; }//Green
-		if (glfwGetKey(window, GLFW_KEY_3)) { grIndx = 3; }//Green
-		if (glfwGetKey(window, GLFW_KEY_4)) { grIndx = 4; }//Green
+		if (glfwGetKey(window, GLFW_KEY_1)) { grIndx = 0; std::cout << "Channel group MASTER selected" << std::endl; }
+		if (glfwGetKey(window, GLFW_KEY_1)) { grIndx = 1; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
+		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
+		if (glfwGetKey(window, GLFW_KEY_3)) { grIndx = 3; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
+		if (glfwGetKey(window, GLFW_KEY_4)) { grIndx = 4; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
 		soundControl(grIndx, window);
 
 	}

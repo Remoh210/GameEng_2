@@ -34,6 +34,11 @@ FMOD::Sound *_sound[NUM_OF_SOUNDS];
 FMOD::Channel *_channel[NUM_OF_SOUNDS];
 FMOD::ChannelGroup *_channel_groups[NUM_OF_CHANNEL_GROUPS];
 FMOD::DSP *_dsp_echo;
+FMOD::DSP *_dsp_sfx_reverb;
+FMOD::DSP *_dsp_chor;
+FMOD::DSP *_dsp_flange;
+FMOD::DSP *_dsp_high_pass;
+FMOD::DSP *_dsp_low_pass;
 
 FMOD_VECTOR _channel_position1;
 FMOD_VECTOR _channel_position2;
@@ -640,14 +645,69 @@ void SetUpSound()
 	//	}
 	//}
 
-	//TODO7: Create dsp echo
+	// Create dsp 
 	_result = _system->createDSPByType(FMOD_DSP_TYPE_ECHO, &_dsp_echo);
 	assert(!_result);
-
-	_result = _channel_groups[1]->addDSP(0, _dsp_echo);
+	_result = _channel_groups[2]->addDSP(0, _dsp_echo);
 	assert(!_result);
 	_result = _dsp_echo->setBypass(true);
 	assert(!_result);
+
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_SFXREVERB, &_dsp_sfx_reverb);
+	assert(!_result);
+	_result = _channel_groups[2]->addDSP(0, _dsp_sfx_reverb);
+	assert(!_result);
+	_result = _dsp_sfx_reverb->setBypass(true);
+	assert(!_result);
+
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_CHORUS, &_dsp_chor);
+	assert(!_result);
+	_result = _channel_groups[2]->addDSP(0, _dsp_chor);
+	assert(!_result);
+	_result = _dsp_chor->setParameterFloat(1, 20.0f);
+	_result = _dsp_chor->setBypass(true);
+
+
+	//GR 3
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_FLANGE, &_dsp_flange);
+	assert(!_result);
+	_result = _channel_groups[3]->addDSP(0, _dsp_flange);
+	assert(!_result);
+	_result = _dsp_flange->setParameterFloat(1, 0.2f);
+	_result = _dsp_flange->setParameterFloat(2, 20.0f);
+	_result = _dsp_flange->setBypass(true);
+	assert(!_result);
+
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_HIGHPASS, &_dsp_high_pass);
+	assert(!_result);
+	_result = _channel_groups[3]->addDSP(0, _dsp_high_pass);
+	assert(!_result);
+	_result = _dsp_high_pass->setBypass(true);
+	assert(!_result);
+
+
+	_result = _system->createDSPByType(FMOD_DSP_TYPE_ITLOWPASS, &_dsp_low_pass);
+	assert(!_result);
+	_result = _channel_groups[3]->addDSP(0, _dsp_low_pass);
+	assert(!_result);
+	_result = _dsp_low_pass->setBypass(true);
+
+	//GR 4 
+
+	//_FLANGE //param 2 0.1 - 20.0
+	//FMOD_DSP_TYPE_HIGHPASS
+	//FMOD_DSP_TYPE_ITLOWPASS
+	//FMOD_DSP_TYPE_TREMOL
+	//FMOD_DSP_TYPE_PITCHSHIFT 2.0f ind 0
+	//FMOD_DSP_TYPE_NORMALIZE
+
+	assert(!_result);
+	
+
 }
 
 void UpdateSound() {

@@ -15,6 +15,12 @@ extern FMOD::Sound *_sound[NUM_OF_SOUNDS];
 extern FMOD::Channel *_channel[NUM_OF_SOUNDS];
 extern FMOD::ChannelGroup *_channel_groups[NUM_OF_CHANNEL_GROUPS];
 extern FMOD::DSP *_dsp_echo;
+extern FMOD::DSP *_dsp_sfx_reverb;
+extern FMOD::DSP *_dsp_chor;
+
+extern FMOD::DSP *_dsp_flange;
+extern FMOD::DSP *_dsp_high_pass;
+extern FMOD::DSP *_dsp_low_pass;
 
 extern FMOD_VECTOR _channel_position1;
 extern FMOD_VECTOR _channel_position2;
