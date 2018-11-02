@@ -91,7 +91,7 @@ const unsigned int SCR_HEIGHT = 800;
 
 glm::vec3 cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
+glm::vec3 g_CameraEye = glm::vec3( 0.0, 80.0, 250.0f );
 
 
 
@@ -581,7 +581,7 @@ void SetUpSound()
 
 
 	//3d Sound 
-	_result = _sound[0]->set3DMinMaxDistance(100.0f, 100000.0f);
+	_result = _sound[0]->set3DMinMaxDistance(50.0f, 100000.0f);
 	assert(!_result);
 	_result = _sound[0]->setMode(FMOD_LOOP_NORMAL);
 	assert(!_result);

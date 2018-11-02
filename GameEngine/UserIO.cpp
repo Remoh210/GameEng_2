@@ -47,8 +47,8 @@ void key_callback(GLFWwindow* window,
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
-		saveModelInfo("Models.txt", vec_pObjectsToDraw);
-		saveLightInfo("lights.txt", LightManager->vecLights);
+		//saveModelInfo("Models.txt", vec_pObjectsToDraw);
+		//saveLightInfo("lights.txt", LightManager->vecLights);
 	}
 
 
@@ -151,7 +151,7 @@ void key_callback(GLFWwindow* window,
 
 
 
-	if(glm::distance(g_CameraEye, vec_Sound_Obj.at(0)->position) < 200)
+	if(glm::distance(g_CameraEye, vec_Sound_Obj.at(0)->position) < 300)
 	{
 		_result = _channel[0]->setPaused(false);
 	}
