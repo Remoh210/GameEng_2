@@ -101,13 +101,13 @@ void key_callback(GLFWwindow* window,
 		LightManager->vecLights.at(lightIndex)->param2.x = 1.0f;
 	}
 	//TURN OFF The Light
-	if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_F && action == GLFW_PRESS)
 	{
 		LightManager->vecLights.at(lightIndex)->param2.x = 0.0f;
 	}
 
 
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_P && action == GLFW_PRESS)
 	{
 		if (bIsPaused == false)
 		{
@@ -128,19 +128,24 @@ void key_callback(GLFWwindow* window,
 	}
 
 
+	if (key == GLFW_KEY_0 && action == GLFW_PRESS) { grIndx = 0; std::cout << "Channel group MASTER selected" << std::endl; }
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS) { grIndx = 1; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS) { grIndx = 2; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS) { grIndx = 3; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
+	if (key == GLFW_KEY_4 && action == GLFW_PRESS) { grIndx = 4; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
 
 
 
 	//TURN ON AND OFF SPHERES THAT SHOW LIGHT ATTENUATION
 
-	if (glfwGetKey(window, GLFW_KEY_O))
-	{
-		LightManager->vecLights.at(lightIndex)->AtenSphere = true;
-	}
-	if (glfwGetKey(window, GLFW_KEY_P))
-	{
-		LightManager->vecLights.at(lightIndex)->AtenSphere = false;
-	}
+	//if (glfwGetKey(window, GLFW_KEY_O))
+	//{
+	//	LightManager->vecLights.at(lightIndex)->AtenSphere = true;
+	//}
+	//if (glfwGetKey(window, GLFW_KEY_P))
+	//{
+	//	LightManager->vecLights.at(lightIndex)->AtenSphere = false;
+	//}
 
 
 
@@ -602,14 +607,9 @@ void ProcessAsynKeys(GLFWwindow* window)
 
 	}
 
-	//Some Sound controls
+	//Sound control
 	if(IsShiftDown(window))
 	{
-		if (glfwGetKey(window, GLFW_KEY_1)) { grIndx = 0; std::cout << "Channel group MASTER selected" << std::endl; }
-		if (glfwGetKey(window, GLFW_KEY_1)) { grIndx = 1; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
-		if (glfwGetKey(window, GLFW_KEY_2)) { grIndx = 2; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
-		if (glfwGetKey(window, GLFW_KEY_3)) { grIndx = 3; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
-		if (glfwGetKey(window, GLFW_KEY_4)) { grIndx = 4; std::cout << "Channel group " << grIndx << " selected" << std::endl; }
 		soundControl(grIndx, window);
 
 	}
